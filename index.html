@@ -190,7 +190,7 @@ body.two-up .heli{columns:2;}
 .wp-search-wrap{padding:10px 0 16px;}
 .wp-search{background:var(--card);border:1px solid var(--border2);color:var(--white);font-family:'JetBrains Mono',monospace;font-size:13px;padding:8px 14px;border-radius:6px;width:100%;box-sizing:border-box;outline:none;}
 .wp-search:focus{border-color:#7dd3fc;}
-.wp-grid{columns:260px;column-gap:14px;margin-bottom:8px;}
+.wp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0 14px;margin-bottom:8px;}
 .wp-row{display:flex;align-items:center;gap:10px;padding:5px 8px;border-radius:4px;}
 .wp-row:hover{background:var(--border);}
 .wp-row.selected{background:rgba(125,211,252,0.15);outline:1px solid rgba(125,211,252,0.3);border-radius:4px;}
