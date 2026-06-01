@@ -9,8 +9,8 @@
 :root{--bg:#080b10;--surface:#0e1218;--card:#121820;--border:#1c2535;--border2:#243040;--yssy:#00d4ff;--ysws:#ff8c00;--sid:#00e87a;--sid-dim:rgba(0,232,122,.1);--star:#b06aff;--star-dim:rgba(176,106,255,.1);--muted:#4a5e72;--white:#eaf2fa;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:#c8d8e8;font-family:'JetBrains Mono',monospace;min-height:100vh;}
-.hdr{display:flex;align-items:center;gap:16px;padding:14px 20px;background:linear-gradient(180deg,#0c1420,var(--bg));border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.6);}
-.hdr-logo{font-family:'Oxanium',sans-serif;font-weight:800;font-size:18px;color:var(--white);}
+.hdr{display:flex;align-items:center;gap:16px;padding:8px 20px;background:linear-gradient(180deg,#0c1420,var(--bg));border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.6);}
+.hdr-logo{font-family:'Oxanium',sans-serif;font-weight:800;font-size:15px;color:var(--white);}
 .ha{color:var(--yssy);}.hb{color:var(--star);}
 .hdr-sub{font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:3px;}
 .hdr-badge{margin-left:auto;font-size:9px;color:var(--yssy);border:1px solid rgba(0,212,255,.3);background:rgba(0,212,255,.06);padding:4px 10px;border-radius:2px;letter-spacing:2px;}
@@ -41,6 +41,8 @@ body{background:var(--bg);color:#c8d8e8;font-family:'JetBrains Mono',monospace;m
 #ap-suburb .sec-head+.grid{display:none;}
 #ap-suburb .sec-head.sec-open+.grid{display:block;}
 .grid{columns:300px;column-gap:14px;margin-bottom:8px;}
+body.two-up .grid{columns:2;}
+body.two-up .heli{columns:2;}
 .card{background:var(--card);border:1px solid var(--border);border-radius:5px;overflow:hidden;transition:border-color .2s,transform .15s,box-shadow .2s;break-inside:avoid;display:inline-block;width:100%;margin-bottom:14px;}
 .card:hover{border-color:var(--border2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,.4);}
 .card.sid{border-left:3px solid var(--sid);}
@@ -210,7 +212,7 @@ body{background:var(--bg);color:#c8d8e8;font-family:'JetBrains Mono',monospace;m
 <body>
 <div class="hdr">
   <div>
-    <div class="hdr-logo">Quick(er) Reference Guide.</div>
+    <div class="hdr-logo">ATC reference material - unofficial</div>
     <div class="hdr-sub">DAP 187 · 09 JUL 2026 · By Dylan Wagener</div>
   </div>
   <button class="hdr-badge" id="atis-trigger" onclick="showAP('atis',this)">LIVE ATIS</button>
@@ -238,6 +240,8 @@ body{background:var(--bg);color:#c8d8e8;font-family:'JetBrains Mono',monospace;m
   <div class="sep-flt"></div>
   <button class="flt" onclick="flt('yssy','jet',this)">JET</button>
   <button class="flt" onclick="flt('yssy','nonjet',this)">NON-JET</button>
+  <div class="sep-flt"></div>
+  <button class="flt wide-toggle" onclick="toggleWide(this)">2-UP</button>
 </div>
 <div class="toolbar" id="tb-ysws" style="display:none">
   <button class="flt on" onclick="flt('ysws','all',this)">ALL</button>
@@ -249,6 +253,8 @@ body{background:var(--bg);color:#c8d8e8;font-family:'JetBrains Mono',monospace;m
   <div class="sep-flt"></div>
   <button class="flt" onclick="flt('ysws','jet',this)">JET</button>
   <button class="flt" onclick="flt('ysws','nonjet',this)">NON-JET</button>
+  <div class="sep-flt"></div>
+  <button class="flt wide-toggle" onclick="toggleWide(this)">2-UP</button>
 </div>
 <div class="main">
   <div id="ap-yssy" class="airport show">
@@ -1220,6 +1226,12 @@ function showAP(id,btn){
 }
 const ALL_RWYS=['07','16l','16r','25','34l','34r','05','23'];
 const fltState={yssy:{type:null,rwy:null,cls:null},ysws:{type:null,rwy:null,cls:null}};
+function toggleWide(btn){
+  var on=document.body.classList.toggle('two-up');
+  try{localStorage.setItem('twoUp',on?'1':'0');}catch(e){}
+  document.querySelectorAll('.wide-toggle').forEach(function(b){b.classList.toggle('on',on);});
+}
+(function(){try{if(localStorage.getItem('twoUp')==='1'){document.body.classList.add('two-up');document.querySelectorAll('.wide-toggle').forEach(function(b){b.classList.add('on');});}}catch(e){}})();
 function flt(ap,type,btn){
   const st=fltState[ap];
   if(type==='all'){st.type=null;st.rwy=null;st.cls=null;}
