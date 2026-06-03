@@ -185,6 +185,9 @@ body.two-up .heli{columns:2;}
 
 .tab.ag{color:#ffd700;border-bottom-color:#ffd700;}
 .tab.awp{color:#7dd3fc;border-bottom-color:#7dd3fc;}
+.tab.aac{color:#b794f6;border-bottom-color:#b794f6;}
+.ac-row .wp-code{color:#b794f6;}
+.sh-ac::before{background:#b794f6;box-shadow:0 0 6px #b794f6;}
 .ga-wrap{max-width:980px;margin:0 auto;padding:8px 0 80px;}
 .wp-wrap{max-width:980px;margin:0 auto;padding:8px 0 80px;}
 .wp-search-wrap{padding:10px 0 16px;}
@@ -222,6 +225,7 @@ body.two-up .heli{columns:2;}
   <button class="tab" onclick="showAP('ysws',this)">YSWS<span class="tab-count">33</span></button>
   <button class="tab" onclick="showAP('suburb',this)">BK/RI<span class="tab-count">20</span></button>
   <button class="tab" onclick="showAP('wp',this)">WP'S</button>
+  <button class="tab" onclick="showAP('ac',this)">A/C</button>
   <button class="tab" onclick="showAP('heli',this)">HELI</button>
   <button class="tab" onclick="showAP('ga',this)">G/A</button>
   <button class="tab" onclick="showAP('iva',this)">IVA</button>
@@ -1198,6 +1202,16 @@ body.two-up .heli{columns:2;}
     <div id="wp-no-results" class="wp-no-results" style="display:none">No results found.</div>
   </div>
 </div>
+<div id="ap-ac" class="airport">
+  <div class="wp-wrap">
+    <div class="wp-search-wrap">
+      <input type="text" id="ac-search" class="wp-search" placeholder="Search code or aircraft...">
+    </div>
+    <div class="sec-head sh-ac">AIRCRAFT TYPES</div>
+    <div class="wp-grid" id="ac-list"></div>
+    <div id="ac-no-results" class="wp-no-results" style="display:none">No results found.</div>
+  </div>
+</div>
 <div id="lb" class="lightbox" onclick="this.classList.remove('open')">
   <img id="lb-img" src="">
 </div>
@@ -1211,7 +1225,7 @@ function showAP(id,btn){
   if(id!=='atis'){_lastAP=id;_lastAPBtn=btn;}
   document.querySelectorAll('.airport').forEach(a=>a.classList.remove('show'));
   document.getElementById('ap-'+id).classList.add('show');
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ay','aw','ai','as','ah','ag','awp'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ay','aw','ai','as','ah','ag','awp','aac'));
   document.getElementById('atis-trigger').classList.remove('atis-active');
   if(id==='yssy') btn.classList.add('ay');
   else if(id==='ysws') btn.classList.add('aw');
@@ -1221,6 +1235,7 @@ function showAP(id,btn){
   else if(id==='atis'){ btn.classList.add('atis-active'); fetchATIS(); }
   else if(id==='ga') btn.classList.add('ag');
   else if(id==='wp') btn.classList.add('awp');
+  else if(id==='ac') btn.classList.add('aac');
   document.getElementById('tb-yssy').style.display=id==='yssy'?'flex':'none';
   document.getElementById('tb-ysws').style.display=id==='ysws'?'flex':'none';
 }
@@ -2108,6 +2123,151 @@ var WP_HOSP=[
       if(match)any=true;
     });
     document.getElementById('wp-no-results').style.display=(!q||any)?'none':'';
+  });
+})();
+
+var AC_TYPES=[
+  ['A109','AUGUSTA 109 (1-7)'],
+  ['A124','ANTONOV (4-88)'],
+  ['A139','AUGUSTA 139 (2-15)'],
+  ['A319','A319 (2-150)'],
+  ['A320 / A321','A320 / A321 (2-150)'],
+  ['A332 / A333','A330 (2-250)'],
+  ['A340 / A343 / A346','A340 (2-290)'],
+  ['A388','A380 (2-555)'],
+  ['AC50 / AC68','AERO COMMANDER (1-7)'],
+  ['AC69 / AC80 / AC90','TURBO COMMANDER (1-7)'],
+  ['AEST','AEROSTAR (1-5)'],
+  ['AS50','H125 (1-6)'],
+  ['AS65','DAUPHIN (1-13)'],
+  ['ASTR','ASTRA (2-9)'],
+  ['AT75/6','ATR 72 (2-70)'],
+  ['B06','JETRANGER (1-5)'],
+  ['B190','BEECH 1900 (2-21)'],
+  ['B350','KINGAIR (1-14)'],
+  ['B412','BELL 412 (1-13)'],
+  ['B461 / B462 / B463','BA146 (2-100)'],
+  ['B712','BOEING 717 (2-110)'],
+  ['B734/7/8 / B73Y','BOEING 737 (2-165)'],
+  ['B744 / B742 / B74S','BOEING 747 (2-416)'],
+  ['B752','BOEING 757 (2-200)'],
+  ['B762 / B763','BOEING 767 (2-250)'],
+  ['B772/3 / B77L / B77W','BOEING 777 (2-365)'],
+  ['B788','BOEING 787 (2-248)'],
+  ['BCS3','A220 (2-149)'],
+  ['BE20 / BE30','KINGAIR (1-14)'],
+  ['BE35 / BE36','BONANZA (1-6)'],
+  ['BE40','BEECHJET (2-10)'],
+  ['BE55 / BE58','BARON (1-6)'],
+  ['BE76','DUCHESS (1-4)'],
+  ['BE95','TRAVEL AIR (1-4)'],
+  ['BE9L','KINGAIR (1-8)'],
+  ['C130','HERCULES (4-96)'],
+  ['C141','STARLIFTER (4-154)'],
+  ['C150 / C152','CESSNA 150 / 152 (1-2)'],
+  ['C17','GLOBEMASTER (2-104)'],
+  ['C172','CESSNA 172 (Skyhawk) (1-4)'],
+  ['C182 / C182R','CESSNA 182 (Skylane) (1-4)'],
+  ['C185','CESSNA 185 (1-6)'],
+  ['C206','CESSNA 206 (Stationair) (1-6)'],
+  ['C208','CARAVAN (1-10)'],
+  ['C210','CESSNA 210 (Centurion) (1-6)'],
+  ['C25A','CITATION (2-14)'],
+  ['C30J','HERCULES (3-131)'],
+  ['C310','CESSNA 310 (1-6)'],
+  ['C336 / C337','SKYMASTER (1-6)'],
+  ['C340','CESSNA 340 (1-6)'],
+  ['C402','CESSNA 402 (1-10)'],
+  ['C404','CESSNA 404 (Titan) (1-10)'],
+  ['C421','CESSNA 421 (Golden Eagle) (1-9)'],
+  ['C425','CORSAIR (2-8)'],
+  ['C441','CONQUEST (1-10)'],
+  ['C5','GALAXY (5-102)'],
+  ['C5XX / C6XX / C750','CITATION (2-14)'],
+  ['CJ6','NANCHANG (1-2)'],
+  ['CL60','CHALLENGER (2-21)'],
+  ['CONI','CONSTELLATION (5-105)'],
+  ['CT4','CT4 (1-2)'],
+  ['D328','DORNIER (2-33)'],
+  ['DC10','DC10 (2-255)'],
+  ['DH8 (All Variants)','DASH 8 (2-90)'],
+  ['E110','BANDIERANTE (2-18)'],
+  ['E120','BRASILIA (2-30)'],
+  ['E135','ERJ (2-37)'],
+  ['E170 / E190','EJET (2+)'],
+  ['E50P','PHENOM (1-6)'],
+  ['E737','WEDGETAIL (4-14)'],
+  ['EC30','H130 (1-7)'],
+  ['F100','FOKKER 100 (2-100)'],
+  ['F18','F18 (1-2)'],
+  ['F22','F22 (1)'],
+  ['F50','FOKKER 50 (2-60)'],
+  ['F70','FOKKER 70 (2-81)'],
+  ['F900','FALCON 900 (2-20)'],
+  ['GA8','AIRVAN (1-8)'],
+  ['GLEX','GLOBAL EXPRESS (2-20)'],
+  ['GLF4/5/6','GULFSTREAM (2-21)'],
+  ['H135','H135'],
+  ['H25B','HAWKER 800 (2-16)'],
+  ['H60','BLACKHAWK (2-13)'],
+  ['HAWK','HAWK (1-2)'],
+  ['JS32','JETSTREAM (2-14)'],
+  ['K35R','STRATOTANKER (4)'],
+  ['L39','ALBATROS (1-2)'],
+  ['LJ35','LEARJET (2-10)'],
+  ['LNC4','LANCAIR (1-4)'],
+  ['M18','DROMADER (1-2)'],
+  ['M20P','MOONEY (1-4)'],
+  ['MD11','MD11 (2+)'],
+  ['MU2','MU2 (1-12)'],
+  ['NH90','NH90 (2-22)'],
+  ['P28A / P28B','CHEROKEE / WARRIOR (1-4)'],
+  ['P28R / P28T','ARROW (1-4)'],
+  ['P3','ORION (10)'],
+  ['P68','PARTENAVIA (1-6)'],
+  ['P750','P750 (Xstol) (1-17)'],
+  ['P8','POSEIDON (2-9)'],
+  ['PA23 / PA27','APACHE / AZTEC (1-6)'],
+  ['PA24','COMANCHE (1-4)'],
+  ['PA30','TWIN COMANCHE (1-6)'],
+  ['PA31','CHIEFTAIN / NAVAJO (1-10)'],
+  ['PA32 / P32R','SARATOGA / LANCE / CHEROKEE6 (1-7)'],
+  ['PA34','SENECA (1-6)'],
+  ['PA44','SEMINOLE (1-4)'],
+  ['PA46','MALIBU (1-6)'],
+  ['PAY3','CHEYENNE (2-12)'],
+  ['PC12','PC12 (1-10)'],
+  ['PC9','PC9 (1-2)'],
+  ['R44','R44 (1-4)'],
+  ['RJ1H','RJ1 (2-130)'],
+  ['SF34','SAAB 340 (2-39)'],
+  ['SK76','S76 (2-13)'],
+  ['SR20 / SR22','CIRRUS (1-4)'],
+  ['SW3/4','METRO (2-20)'],
+  ['TBM7','TBM 700 (1-7)'],
+];
+(function(){
+  var grid=document.getElementById('ac-list');
+  AC_TYPES.forEach(function(item){
+    var row=document.createElement('div');
+    row.className='wp-row ac-row';
+    row.setAttribute('data-s',item[0].toLowerCase()+' '+item[1].toLowerCase());
+    row.innerHTML='<span class="wp-code">'+item[0]+'</span><span class="wp-name">'+item[1]+'</span>';
+    grid.appendChild(row);
+  });
+  document.getElementById('ap-ac').addEventListener('click',function(e){
+    var row=e.target.closest('.wp-row');
+    if(row) row.classList.toggle('selected');
+  });
+  document.getElementById('ac-search').addEventListener('input',function(){
+    var q=this.value.toLowerCase().trim();
+    var any=false;
+    document.querySelectorAll('#ap-ac .wp-row').forEach(function(row){
+      var match=!q||row.getAttribute('data-s').includes(q);
+      row.classList.toggle('hidden',!match);
+      if(match)any=true;
+    });
+    document.getElementById('ac-no-results').style.display=(!q||any)?'none':'';
   });
 })();
 
