@@ -32,13 +32,13 @@ body{background:var(--bg);color:#c8d8e8;font-family:'JetBrains Mono',monospace;m
 .sec-head::before{content:'';width:8px;height:8px;border-radius:50%;display:inline-block;}
 .sh-sid::before{background:var(--sid);box-shadow:0 0 6px var(--sid);}
 .sh-star::before{background:var(--star);box-shadow:0 0 6px var(--star);}
-#ap-suburb .sec-head{cursor:pointer;color:var(--white);font-weight:800;}
-#ap-suburb .sec-head::after{content:'▾';font-size:12px;color:var(--muted);display:inline-block;transition:transform .2s;margin-left:auto;}
+.suburb-tab .sec-head{cursor:pointer;color:var(--white);font-weight:800;}
+.suburb-tab .sec-head::after{content:'▾';font-size:12px;color:var(--muted);display:inline-block;transition:transform .2s;margin-left:auto;}
 .sh-ysbk::before{background:#ffd700;box-shadow:0 0 6px #ffd700;}
 .sh-ysri::before{background:#5a7a2e;box-shadow:0 0 6px #5a7a2e;}
-#ap-suburb .sec-head.sec-open::after{transform:rotate(180deg);}
-#ap-suburb .sec-head+.grid{display:none;}
-#ap-suburb .sec-head.sec-open+.grid{display:block;}
+.suburb-tab .sec-head.sec-open::after{transform:rotate(180deg);}
+.suburb-tab .sec-head+.grid{display:none;}
+.suburb-tab .sec-head.sec-open+.grid{display:block;}
 .grid{columns:300px;column-gap:14px;margin-bottom:8px;}
 body.two-up .grid{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;align-items:start;}
 body.two-up .heli{columns:2;}
@@ -122,7 +122,8 @@ body.two-up .heli{columns:2;}
 
 .badge-col{display:flex;flex-direction:column;align-items:flex-start;gap:3px;flex-shrink:0;}
 .tab.ah{color:#f5a623;border-bottom-color:#f5a623;}
-.tab.as{color:#00cec9;border-bottom-color:#00cec9;}
+.tab.abk{color:#00cec9;border-bottom-color:#00cec9;}
+.tab.ari{color:#5fc46a;border-bottom-color:#5fc46a;}
 .heli{max-width:980px;margin:0 auto;padding:8px 0 80px;columns:300px;column-gap:14px;}
 .heli-full{column-span:all;display:block !important;}
 .heli-hero{background:linear-gradient(135deg,#1a140a,#0e1218);border:1px solid #3a2a0a;border-left:3px solid #f5a623;border-radius:5px;padding:18px 22px;margin-bottom:20px;}
@@ -198,7 +199,8 @@ body.two-up .heli{columns:2;}
 <div class="tabs">
   <button class="tab ay" onclick="showAP('yssy',this)">YSSY<span class="tab-count">18</span></button>
   <button class="tab" onclick="showAP('ysws',this)">YSWS<span class="tab-count">33</span></button>
-  <button class="tab" onclick="showAP('suburb',this)">BK/RI<span class="tab-count">20</span></button>
+  <button class="tab" onclick="showAP('sbk',this)">YSBK<span class="tab-count">7</span></button>
+  <button class="tab" onclick="showAP('sri',this)">YSRI<span class="tab-count">15</span></button>
   <button class="tab" onclick="showAP('wp',this)">WP'S</button>
   <button class="tab" onclick="showAP('ac',this)">A/C</button>
   <button class="tab" onclick="showAP('heli',this)">HELI</button>
@@ -891,7 +893,7 @@ body.two-up .heli{columns:2;}
     </div>
   </div>
 
-  <div id="ap-suburb" class="airport">
+  <div id="ap-sbk" class="airport suburb-tab">
     <div class="sec-head sh-ysbk">YSBK &nbsp;·&nbsp; SID</div>
     <div class="grid">
       <div class="card sid" data-type="sid" data-rwy="11C 29C" data-class="both" data-ap="sbk">
@@ -952,6 +954,8 @@ body.two-up .heli{columns:2;}
         <div class="alt-panel" style="padding:10px 12px"><div class="alt-row"><span class="alt-wpt" style="color:#00cec9;min-width:60px;letter-spacing:1px">RWY 11</span></div><div class="alt-row"><span class="alt-wpt" style="color:#ffd700;font-weight:700;letter-spacing:0.5px">YOU MUST TURN LEFT</span></div><div class="alt-row"><span class="alt-wpt">Track</span><span class="alt-val">SB3MA</span></div><div class="alt-row"><span class="alt-wpt">Track</span><span class="alt-val">187°</span></div><div class="alt-row"><span class="alt-wpt">Climb</span><span class="alt-val">2200ft</span></div></div>
       </div>
     </div>
+  </div>
+  <div id="ap-sri" class="airport suburb-tab">
     <div class="sec-head sh-ysri">YSRI &nbsp;·&nbsp; SID</div>
     <div class="grid">
       <div class="card sid" data-type="sid" data-rwy="10 28" data-class="both" data-ap="sri">
@@ -1190,12 +1194,13 @@ body.two-up .heli{columns:2;}
 function showAP(id,btn){
   document.querySelectorAll('.airport').forEach(a=>a.classList.remove('show'));
   document.getElementById('ap-'+id).classList.add('show');
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ay','aw','ai','as','ah','ag','awp','aac'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ay','aw','ai','abk','ari','ah','ag','awp','aac'));
   if(id==='yssy') btn.classList.add('ay');
   else if(id==='ysws') btn.classList.add('aw');
   else if(id==='iva') btn.classList.add('ai');
   else if(id==='heli') btn.classList.add('ah');
-  else if(id==='suburb') btn.classList.add('as');
+  else if(id==='sbk') btn.classList.add('abk');
+  else if(id==='sri') btn.classList.add('ari');
   else if(id==='ga') btn.classList.add('ag');
   else if(id==='wp') btn.classList.add('awp');
   else if(id==='ac') btn.classList.add('aac');
@@ -1772,12 +1777,12 @@ document.querySelectorAll('#ap-ysws .card').forEach(function(card){
 });
 
 // Suburb section collapsible toggles
-document.querySelectorAll('#ap-suburb .sec-head').forEach(function(sh){
+document.querySelectorAll('.suburb-tab .sec-head').forEach(function(sh){
   sh.addEventListener('click',function(){ sh.classList.toggle('sec-open'); });
 });
 
 // Inject alt buttons into suburb cards
-document.querySelectorAll('#ap-suburb .card').forEach(function(card){
+document.querySelectorAll('.suburb-tab .card').forEach(function(card){
   var cnEl = card.querySelector('.cn');
   if(!cnEl) return;
   var name = cnEl.textContent.trim();
