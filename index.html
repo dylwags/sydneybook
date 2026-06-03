@@ -103,9 +103,9 @@ body.two-up .heli{columns:2;}
 .iva-summary{background:linear-gradient(135deg,rgba(0,232,122,.06),rgba(0,212,255,.04));border:1px solid rgba(0,232,122,.2);border-radius:5px;padding:14px 18px;margin-top:18px;font-size:12px;color:#eaf2fa;line-height:1.6;text-align:center;font-family:'Oxanium',sans-serif;font-weight:600;letter-spacing:.5px;}
 .plate-img{display:none;}
 .card.open .plate-img{display:block;}
-.alt-btn{font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.5px;padding:0 14px;border-radius:0;border:none;border-left:1px solid rgba(0,212,255,.3);background:none;color:var(--yssy);cursor:pointer;flex-shrink:0;transition:all .15s;align-self:stretch;margin:-9px -12px -9px 6px;}
+.alt-btn{font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.5px;padding:5px 14px;border-radius:4px;border:1px solid rgba(0,212,255,.35);background:none;color:var(--yssy);cursor:pointer;flex-shrink:0;transition:all .15s;align-self:center;margin:0 0 0 8px;}
 .alt-btn:hover{background:rgba(0,212,255,.1);}
-.card.alt-open .alt-btn{background:rgba(0,212,255,.15);border-left-color:var(--yssy);}
+.card.alt-open .alt-btn{background:rgba(0,212,255,.15);border-color:var(--yssy);}
 .card.open .card-hdr{background:rgba(255,255,255,.06);}
 .alt-panel{display:none;padding:8px 12px;background:rgba(0,212,255,.04);border-top:1px solid rgba(0,212,255,.12);}
 .card.alt-open .alt-panel{display:block;}
@@ -115,7 +115,7 @@ body.two-up .heli{columns:2;}
 .alt-wpt-meta{color:var(--muted);}
 .alt-val{color:#c8d8e8;line-height:1.4;}
 @media (pointer: coarse) {
-  .alt-btn{font-size:11px;padding:0 18px;margin:-12px -14px -12px 6px;}
+  .alt-btn{font-size:11px;padding:6px 18px;margin:0 0 0 8px;}
   .card-hdr{padding:12px 14px;gap:10px;}
   .tab{padding:9px 14px;font-size:11px;}
   .flt{padding:9px 18px;font-size:11px;min-height:38px;}
@@ -1476,6 +1476,8 @@ document.querySelectorAll('#ap-yssy .card').forEach(function(card){
   var name = cnEl.textContent.trim();
   var rows = ALTDATA[name];
   if(!rows) return;
+  var altWpts=rows.filter(function(r){return /^[A-Z][A-Z0-9]{3,}$/.test(r.w);});
+  if(!altWpts.length) return;
 
   // Alt button
   var hdr = card.querySelector('.card-hdr');
@@ -1509,12 +1511,8 @@ document.querySelectorAll('#ap-yssy .card').forEach(function(card){
   // Alt panel
   var panel = document.createElement('div');
   panel.className='alt-panel';
-  var isWpt=function(k){return /^[A-Z][A-Z0-9]{3,}$/.test(k);};
-  var wpts=rows.filter(function(r){return isWpt(r.w);});
-  var meta=rows.filter(function(r){return !isWpt(r.w);});
-  panel.innerHTML=wpts.concat(meta).map(function(r){
-    var cls=isWpt(r.w)?'alt-wpt':'alt-wpt alt-wpt-meta';
-    return '<div class="alt-row"><span class="'+cls+'">'+r.w+'</span><span class="alt-val">'+r.v+'</span></div>';
+  panel.innerHTML=altWpts.map(function(r){
+    return '<div class="alt-row"><span class="alt-wpt">'+r.w+'</span><span class="alt-val">'+r.v+'</span></div>';
   }).join('');
   card.insertBefore(panel, card.querySelector('.plate-img'));
 });
@@ -1773,6 +1771,8 @@ document.querySelectorAll('#ap-ysws .card').forEach(function(card){
   var name = cnEl.textContent.trim();
   var rows = ALTDATA_YSWS[name];
   if(!rows) return;
+  var altWpts=rows.filter(function(r){return /^[A-Z][A-Z0-9]{3,}$/.test(r.w);});
+  if(!altWpts.length) return;
 
   var hdr = card.querySelector('.card-hdr');
   var btn = document.createElement('button');
@@ -1802,12 +1802,8 @@ document.querySelectorAll('#ap-ysws .card').forEach(function(card){
 
   var panel = document.createElement('div');
   panel.className='alt-panel';
-  var isWpt=function(k){return /^[A-Z][A-Z0-9]{3,}$/.test(k);};
-  var wpts=rows.filter(function(r){return isWpt(r.w);});
-  var meta=rows.filter(function(r){return !isWpt(r.w);});
-  panel.innerHTML=wpts.concat(meta).map(function(r){
-    var cls=isWpt(r.w)?'alt-wpt':'alt-wpt alt-wpt-meta';
-    return '<div class="alt-row"><span class="'+cls+'">'+r.w+'</span><span class="alt-val">'+r.v+'</span></div>';
+  panel.innerHTML=altWpts.map(function(r){
+    return '<div class="alt-row"><span class="alt-wpt">'+r.w+'</span><span class="alt-val">'+r.v+'</span></div>';
   }).join('');
   card.insertBefore(panel, card.querySelector('.plate-img'));
 });
@@ -1824,6 +1820,8 @@ document.querySelectorAll('#ap-suburb .card').forEach(function(card){
   var name = cnEl.textContent.trim();
   var rows = ALTDATA[name];
   if(!rows) return;
+  var altWpts=rows.filter(function(r){return /^[A-Z][A-Z0-9]{3,}$/.test(r.w);});
+  if(!altWpts.length) return;
   var hdr = card.querySelector('.card-hdr');
   var btn = document.createElement('button');
   btn.className='alt-btn';
@@ -1851,12 +1849,8 @@ document.querySelectorAll('#ap-suburb .card').forEach(function(card){
   hdr.appendChild(btn);
   var panel = document.createElement('div');
   panel.className='alt-panel';
-  var isWpt=function(k){return /^[A-Z][A-Z0-9]{3,}$/.test(k);};
-  var wpts=rows.filter(function(r){return isWpt(r.w);});
-  var meta=rows.filter(function(r){return !isWpt(r.w);});
-  panel.innerHTML=wpts.concat(meta).map(function(r){
-    var cls=isWpt(r.w)?'alt-wpt':'alt-wpt alt-wpt-meta';
-    return '<div class="alt-row"><span class="'+cls+'">'+r.w+'</span><span class="alt-val">'+r.v+'</span></div>';
+  panel.innerHTML=altWpts.map(function(r){
+    return '<div class="alt-row"><span class="alt-wpt">'+r.w+'</span><span class="alt-val">'+r.v+'</span></div>';
   }).join('');
   card.insertBefore(panel, card.querySelector('.plate-img'));
 });
