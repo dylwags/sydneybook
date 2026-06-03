@@ -13,7 +13,6 @@ body{background:var(--bg);color:#c8d8e8;font-family:'JetBrains Mono',monospace;m
 .hdr-logo{font-family:'Oxanium',sans-serif;font-weight:800;font-size:15px;color:var(--white);}
 .ha{color:var(--yssy);}.hb{color:var(--star);}
 .hdr-sub{font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:3px;}
-.hdr-badge{margin-left:auto;font-size:9px;color:var(--yssy);border:1px solid rgba(0,212,255,.3);background:rgba(0,212,255,.06);padding:4px 10px;border-radius:2px;letter-spacing:2px;}
 .tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}.tabs::-webkit-scrollbar{display:none;}
 .tab{font-family:'Oxanium',sans-serif;font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:13px 22px;border:none;background:none;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;}
 .tab.ay{color:var(--yssy);border-bottom-color:var(--yssy);}
@@ -158,30 +157,7 @@ body.two-up .heli{columns:2;}
 .qn-head::after{content:'▾';margin-left:auto;font-size:10px;color:var(--muted);transition:transform .2s;}
 .qn-head.qn-open::after{transform:rotate(180deg);}
 
-.hdr-badge{cursor:pointer;transition:background .2s,color .2s;}
-.hdr-badge.atis-active{background:#00d4ff;color:#080b10;}
-.atis-wrap{max-width:980px;margin:0 auto;padding:8px 0 80px;}
-.atis-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
-.atis-wide{grid-column:1/-1;}
-.atis-card{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:14px 18px;}
-.atis-lbl{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;font-family:'Oxanium',sans-serif;margin-bottom:8px;}
-.atis-val{font-size:22px;font-family:'Oxanium',sans-serif;font-weight:700;color:#fff;}
-.atis-val.mono{font-size:12px;font-family:'JetBrains Mono',monospace;color:#c8d8e8;line-height:1.8;word-break:break-all;}
-.atis-rwy-row{display:flex;gap:8px;flex-wrap:wrap;min-height:32px;align-items:center;}
-.atis-rwy{padding:5px 14px;border-radius:3px;font-family:'Oxanium',sans-serif;font-weight:700;font-size:14px;}
-.atis-arr{background:rgba(0,232,122,.12);border:1px solid #00e87a;color:#00e87a;}
-.atis-dep{background:rgba(176,106,255,.12);border:1px solid #b06aff;color:#b06aff;}
-.atis-rwy-none{color:var(--muted);font-size:11px;font-family:'JetBrains Mono',monospace;}
-.atis-cat{display:inline-block;padding:4px 16px;border-radius:3px;font-family:'Oxanium',sans-serif;font-weight:700;font-size:18px;}
-.atis-vfr{background:rgba(0,232,122,.15);border:1px solid #00e87a;color:#00e87a;}
-.atis-mvfr{background:rgba(0,150,255,.15);border:1px solid #0096ff;color:#0096ff;}
-.atis-ifr{background:rgba(255,90,95,.15);border:1px solid #ff5a5f;color:#ff5a5f;}
-.atis-lifr{background:rgba(176,106,255,.15);border:1px solid #b06aff;color:#b06aff;}
-.atis-footer{display:flex;align-items:center;gap:12px;font-size:10px;color:var(--muted);margin-top:4px;flex-wrap:wrap;}
-.atis-refresh{font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.5px;padding:4px 12px;border-radius:2px;border:1px solid var(--border2);background:none;color:var(--muted);cursor:pointer;}
-.atis-refresh:hover{color:var(--white);border-color:var(--muted);}
-.atis-dot{width:7px;height:7px;border-radius:50%;background:#00e87a;display:inline-block;margin-right:5px;animation:atispulse 2s infinite;}
-@keyframes atispulse{0%,100%{opacity:1}50%{opacity:.25}}
+
 
 .tab.ag{color:#ffd700;border-bottom-color:#ffd700;}
 .tab.awp{color:#7dd3fc;border-bottom-color:#7dd3fc;}
@@ -218,7 +194,6 @@ body.two-up .heli{columns:2;}
     <div class="hdr-logo">ATC reference material - unofficial</div>
     <div class="hdr-sub">DAP 187 · 09 JUL 2026 · By Dylan Wagener</div>
   </div>
-  <button class="hdr-badge" id="atis-trigger" onclick="showAP('atis',this)">LIVE ATIS</button>
 </div>
 <div class="tabs">
   <button class="tab ay" onclick="showAP('yssy',this)">YSSY<span class="tab-count">18</span></button>
@@ -1108,11 +1083,6 @@ body.two-up .heli{columns:2;}
   </div>
 </div>
 
-<div id="ap-atis" class="airport">
-  <div class="atis-wrap" id="atis-panel">
-    <div style="color:var(--muted);font-size:12px;padding:60px;text-align:center;font-family:'JetBrains Mono',monospace;letter-spacing:1px;">CLICK LIVE ATIS TO LOAD</div>
-  </div>
-</div>
 
 <div id="ap-ga" class="airport">
   <div class="ga-wrap">
@@ -1217,22 +1187,15 @@ body.two-up .heli{columns:2;}
 </div>
 
 <script>
-var _lastAP='yssy',_lastAPBtn=null;
 function showAP(id,btn){
-  if(id==='atis'&&document.getElementById('atis-trigger').classList.contains('atis-active')){
-    showAP(_lastAP,_lastAPBtn); return;
-  }
-  if(id!=='atis'){_lastAP=id;_lastAPBtn=btn;}
   document.querySelectorAll('.airport').forEach(a=>a.classList.remove('show'));
   document.getElementById('ap-'+id).classList.add('show');
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ay','aw','ai','as','ah','ag','awp','aac'));
-  document.getElementById('atis-trigger').classList.remove('atis-active');
   if(id==='yssy') btn.classList.add('ay');
   else if(id==='ysws') btn.classList.add('aw');
   else if(id==='iva') btn.classList.add('ai');
   else if(id==='heli') btn.classList.add('ah');
   else if(id==='suburb') btn.classList.add('as');
-  else if(id==='atis'){ btn.classList.add('atis-active'); fetchATIS(); }
   else if(id==='ga') btn.classList.add('ag');
   else if(id==='wp') btn.classList.add('awp');
   else if(id==='ac') btn.classList.add('aac');
@@ -1902,135 +1865,7 @@ function toggleHeli(el){var sec=el.parentElement,btn=el.querySelector('.heli-btn
   });
 })();
 
-// LIVE ATIS
-const YSSY_LAT = -33.9461, YSSY_LON = 151.1772;
-const RWY_HDGS = [{hdg:70,id:'07'},{hdg:161,id:'16'},{hdg:250,id:'25'},{hdg:341,id:'34'}];
-let atisTimer = null;
 
-function hdgDiff(a,b){let d=Math.abs(a-b)%360;return d>180?360-d:d;}
-
-function parseAussieADSBRunways(html){
-  var m=html.match(/"atis":\["([^"]+)"/);
-  if(!m)return null;
-  try{
-    var text=JSON.parse('"'+m[1]+'"');
-    return text.replace(/\n\s*\n/g,'\n').trim();
-  }catch(e){
-    return m[1].replace(/\\n/g,'\n').replace(/\\u002B/gi,'+').trim();
-  }
-}
-
-function inferRwys(ac){
-  let arr={},dep={};
-  if(!ac)return{arr,dep};
-  ac.forEach(a=>{
-    const lat=a.lat,lon=a.lon,alt=a.alt_baro,vel=a.gs,track=a.track,vrate=a.baro_rate;
-    if(lat==null||lon==null||alt==null||vel==null||track==null)return;
-    const dist=Math.sqrt(Math.pow(lat-YSSY_LAT,2)+Math.pow(lon-YSSY_LON,2))*111;
-    if(dist>18||alt>4000||vel<50)return;
-    let best=null,bestD=999;
-    RWY_HDGS.forEach(r=>{let d=hdgDiff(track,r.hdg);if(d<bestD){bestD=d;best=r.id;}});
-    if(!best||bestD>25)return;
-    if(vrate!=null&&vrate<-200)arr[best]=(arr[best]||0)+1;
-    else if(vrate!=null&&vrate>200)dep[best]=(dep[best]||0)+1;
-  });
-  return{arr,dep};
-}
-
-function fmtWind(wdir,wspd,wgst){
-  if(wdir==null||wspd==null)return'N/A';
-  let s=String(wdir).padStart(3,'0')+'\u00b0/'+wspd+'KT';
-  if(wgst)s+=' G'+wgst+'KT';
-  return s;
-}
-
-function fmtVis(v){
-  if(v==null)return'N/A';
-  if(typeof v==='string'&&v.startsWith('6'))return'9999 (10KM+)';
-  const n=parseFloat(v);
-  if(isNaN(n))return String(v);
-  if(n>=6)return'9999 (10KM+)';
-  return(n*1.609).toFixed(1)+'KM';
-}
-
-function fmtCloud(clouds){
-  if(!clouds||!clouds.length)return'CAVOK';
-  return clouds.map(c=>c.cover+(c.base!=null?' '+c.base+'FT':'')).join(' \u00b7 ');
-}
-
-function catClass(c){
-  if(!c)return'';c=c.toUpperCase();
-  return c==='VFR'?'atis-vfr':c==='MVFR'?'atis-mvfr':c==='IFR'?'atis-ifr':c==='LIFR'?'atis-lifr':'';
-}
-
-function renderATIS(metar,runways){
-  let rwyHTML=runways
-    ?'<div class="atis-val mono">'+runways.replace(/\n/g,'<br>')+'</div>'
-    :'<span class="atis-rwy-none">ATIS unavailable</span>';
-  const wind=fmtWind(metar.wdir,metar.wspd,metar.wgst);
-  const qnh=metar.altim?Math.round(metar.altim)+' hPa':'N/A';
-  const vis=fmtVis(metar.visib);
-  const cloud=fmtCloud(metar.clouds);
-  const temp=metar.temp!=null?metar.temp+'\u00b0C':'N/A';
-  const dew=metar.dewp!=null?metar.dewp+'\u00b0C':'N/A';
-  const cat=metar.fltCat||'';
-  const raw=metar.rawOb||'';
-  const t=new Date().toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',timeZone:'Australia/Sydney'});
-  document.getElementById('atis-panel').innerHTML=
-    '<div class="atis-grid">'
-    +'<div class="atis-card atis-wide"><div class="atis-lbl">ATIS</div><div class="atis-rwy-row">'+rwyHTML+'</div></div>'
-    +'<div class="atis-card"><div class="atis-lbl">Wind</div><div class="atis-val">'+wind+'</div></div>'
-    +'<div class="atis-card"><div class="atis-lbl">QNH</div><div class="atis-val">'+qnh+'</div></div>'
-    +'<div class="atis-card"><div class="atis-lbl">Visibility</div><div class="atis-val">'+vis+'</div></div>'
-    +'<div class="atis-card"><div class="atis-lbl">Temp / Dew</div><div class="atis-val">'+temp+' / '+dew+'</div></div>'
-    +'<div class="atis-card atis-wide"><div class="atis-lbl">Cloud</div><div class="atis-val">'+cloud+'</div></div>'
-    +'<div class="atis-card atis-wide"><div class="atis-lbl">Flight category</div><span class="atis-cat '+catClass(cat)+'">'+( cat||'&mdash;')+'</span></div>'
-    +'<div class="atis-card atis-wide"><div class="atis-lbl">Raw METAR</div><div class="atis-val mono">'+raw+'</div></div>'
-    +'</div>'
-    +'<div class="atis-footer">'
-    +'<span><span class="atis-dot"></span>Updated '+t+' AEST &nbsp;&middot;&nbsp; auto-refreshes every 5 min</span>'
-    +'<button class="atis-refresh" onclick="fetchATIS()">REFRESH</button>'
-    +'<span style="margin-left:auto;opacity:.5;">METAR: Airservices Australia via VATSIM relay &nbsp;|&nbsp; Runway: aussieadsb.com</span>'
-    +'</div>';
-}
-
-async function fetchATIS(){
-  if(atisTimer){clearTimeout(atisTimer);atisTimer=null;}
-  document.getElementById('atis-panel').innerHTML='<div style="color:var(--muted);font-size:11px;padding:60px;text-align:center;font-family:monospace;letter-spacing:2px;">FETCHING LIVE DATA...</div>';
-  let metar=null,runways=null;
-  try{
-    const r=await fetch('https://metar.vatsim.net/metar.php?id=YSSY');
-    const txt=await r.text();
-    const raw=txt.trim();
-    // Parse raw METAR string into the same shape as AWC JSON
-    metar={rawOb:raw,wdir:null,wspd:null,wgst:null,visib:null,temp:null,dewp:null,altim:null,clouds:[],fltCat:null};
-    const wm=raw.match(/(?:VRB|([0-9]{3}))([0-9]{2,3})(?:G([0-9]{2,3}))?KT/);
-    if(wm){metar.wdir=wm[1]?parseInt(wm[1]):null;metar.wspd=parseInt(wm[2]);if(wm[3])metar.wgst=parseInt(wm[3]);}
-    const vm=raw.match(/\s([0-9]{4})\s/);
-    if(vm){const v=parseInt(vm[1]);metar.visib=v>=9000?'6+':((v/1000).toFixed(1));}
-    const tm=raw.match(/\s(M?[0-9]{2})\/(M?[0-9]{2})\s/);
-    if(tm){metar.temp=parseInt(tm[1].replace('M','-'));metar.dewp=parseInt(tm[2].replace('M','-'));}
-    const qm=raw.match(/Q([0-9]{4})/);
-    if(qm)metar.altim=parseInt(qm[1]);
-    const re=/(FEW|SCT|BKN|OVC)([0-9]{3})/g;let cm;
-    while((cm=re.exec(raw))!==null)metar.clouds.push({cover:cm[1],base:parseInt(cm[2])*100});
-    const vis=metar.visib!=null?parseFloat(metar.visib):10;
-    let ceil=9999;metar.clouds.filter(c=>c.cover==='BKN'||c.cover==='OVC').forEach(c=>{if(c.base<ceil)ceil=c.base;});
-    if(vis<1.6||ceil<500)metar.fltCat='LIFR';
-    else if(vis<5||ceil<1000)metar.fltCat='IFR';
-    else if(vis<8||ceil<3000)metar.fltCat='MVFR';
-    else metar.fltCat='VFR';
-  }catch(e){
-    document.getElementById('atis-panel').innerHTML='<div style="color:#ff5a5f;font-size:12px;padding:60px;text-align:center;font-family:monospace;">METAR fetch failed: '+e.message+'<br><br><button class="atis-refresh" onclick="fetchATIS()">RETRY</button></div>';
-    return;
-  }
-  try{
-    const r=await fetch('https://api.allorigins.win/get?url='+encodeURIComponent('https://aussieadsb.com/airportinfo/YSSY'));
-    if(r.ok){const d=await r.json();runways=parseAussieADSBRunways(d.contents||'');}
-  }catch(e){/* fail silently */}
-  renderATIS(metar,runways);
-  atisTimer=setTimeout(fetchATIS,5*60*1000);
-}
 document.querySelectorAll('.ga-rwy').forEach(h=>{h.addEventListener('click',()=>{h.closest('.ga-card').classList.toggle('ga-open');});});
 document.querySelectorAll('.ma-card').forEach(c=>{c.addEventListener('click',()=>{c.classList.toggle('alt-open');});});
 
