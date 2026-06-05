@@ -106,6 +106,10 @@ body.two-up .heli{columns:2;}
 .alt-btn{font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.5px;padding:5px 14px;border-radius:4px;border:1px solid rgba(0,212,255,.35);background:none;color:var(--yssy);cursor:pointer;flex-shrink:0;transition:all .15s;align-self:center;margin:0 0 0 8px;}
 .alt-btn:hover{background:rgba(0,212,255,.1);}
 .card.alt-open .alt-btn{background:rgba(0,212,255,.15);border-color:var(--yssy);}
+.pin-star{align-self:center;flex-shrink:0;border:none;background:none;color:var(--muted);font-size:15px;line-height:1;padding:2px 3px;cursor:pointer;transition:color .15s,transform .15s;}
+.pin-star:hover{color:#ffd700;transform:scale(1.15);}
+.card.pinned .pin-star{color:#ffd700;}
+.pin-divider{grid-column:1/-1;border-top:1px solid rgba(255,215,0,.4);margin:2px 0 10px;}
 .card.open .card-hdr{background:rgba(255,255,255,.06);}
 .alt-panel{display:none;padding:8px 12px;background:rgba(0,212,255,.04);border-top:1px solid rgba(0,212,255,.12);}
 .card.alt-open .alt-panel{display:block;}
@@ -116,6 +120,7 @@ body.two-up .heli{columns:2;}
 .alt-val{color:#c8d8e8;line-height:1.4;}
 @media (pointer: coarse) {
   .alt-btn{font-size:11px;padding:6px 18px;margin:0 0 0 8px;}
+  .pin-star{font-size:18px;padding:5px;}
   .card-hdr{padding:12px 14px;gap:10px;}
   .tab{padding:9px 14px;font-size:11px;}
   .flt{padding:9px 18px;font-size:11px;min-height:38px;}
@@ -1267,7 +1272,7 @@ document.querySelectorAll('.card').forEach(function(card){
   var hdr=card.querySelector('.card-hdr');
   if(!hdr)return;
   hdr.addEventListener('click',function(e){
-    if(e.target.closest('.alt-btn'))return;
+    if(e.target.closest('.alt-btn, .pin-star'))return;
     var isOpen=card.classList.contains('open');
     if(!isOpen){
       if(!card.classList.contains('open')&&!card.classList.contains('alt-open')){
@@ -2117,19 +2122,50 @@ function shortenCardNames(){
 }
 shortenCardNames();
 
-// ---- Sort YSSY & YSWS plates A-Z by name (SID/STAR mixed). Pure in-page JS, no network. ----
+// ---- Pins + A-Z sort for YSSY/YSWS: pinned float to top, rest A-Z. Pure in-page JS, no network. ----
 (function(){
-  ['g-yssy-sid','g-ysws-sid','ysws-qn'].forEach(function(id){
-    var grid=document.getElementById(id);
-    if(!grid) return;
-    var cards=Array.prototype.slice.call(grid.querySelectorAll('.card'));
-    cards.sort(function(a,b){
-      var an=(a.querySelector('.cn')||{textContent:''}).textContent.trim();
-      var bn=(b.querySelector('.cn')||{textContent:''}).textContent.trim();
-      return an.localeCompare(bn);
+  var GRIDS=['g-yssy-sid','g-ysws-sid','ysws-qn'];
+  var PINS={}; try{PINS=JSON.parse(localStorage.getItem('platePins')||'{}');}catch(e){PINS={};}
+  function savePins(){try{localStorage.setItem('platePins',JSON.stringify(PINS));}catch(e){}}
+  function nameOf(c){var n=c.querySelector('.cn');return n?n.textContent.trim():'';}
+  function keyOf(c){return (c.dataset.ap||'')+'|'+nameOf(c);}
+  function sortPlates(){
+    GRIDS.forEach(function(id){
+      var grid=document.getElementById(id); if(!grid) return;
+      var cards=Array.prototype.slice.call(grid.querySelectorAll('.card'));
+      cards.sort(function(a,b){
+        var pa=a.classList.contains('pinned')?0:1, pb=b.classList.contains('pinned')?0:1;
+        if(pa!==pb) return pa-pb;
+        return nameOf(a).localeCompare(nameOf(b));
+      });
+      cards.forEach(function(c){grid.appendChild(c);});
+      var div=grid.querySelector('.pin-divider');
+      if(div&&div.parentNode) div.parentNode.removeChild(div);
+      var pinned=cards.filter(function(c){return c.classList.contains('pinned');});
+      if(pinned.length){
+        if(!div){div=document.createElement('div');div.className='pin-divider';}
+        grid.insertBefore(div, pinned[pinned.length-1].nextSibling);
+      }
     });
-    cards.forEach(function(c){grid.appendChild(c);});
+  }
+  GRIDS.forEach(function(id){
+    var grid=document.getElementById(id); if(!grid) return;
+    grid.querySelectorAll('.card').forEach(function(card){
+      var hdr=card.querySelector('.card-hdr'); if(!hdr||hdr.querySelector('.pin-star')) return;
+      if(PINS[keyOf(card)]) card.classList.add('pinned');
+      var star=document.createElement('button');
+      star.className='pin-star'; star.textContent='\u2605'; star.title='Pin to top';
+      star.addEventListener('click',function(e){
+        e.stopPropagation();
+        var on=card.classList.toggle('pinned');
+        if(on) PINS[keyOf(card)]=1; else delete PINS[keyOf(card)];
+        savePins(); sortPlates();
+      });
+      var alt=hdr.querySelector('.alt-btn');
+      if(alt) hdr.insertBefore(star,alt); else hdr.appendChild(star);
+    });
   });
+  sortPlates();
 })();
 </script>
 </body></html>
