@@ -6,9 +6,19 @@
 <title>Sydney Info</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap');
-:root{--bg:#080b10;--surface:#0e1218;--card:#121820;--border:#1c2535;--border2:#243040;--yssy:#00d4ff;--ysws:#ff8c00;--sid:#00e87a;--sid-dim:rgba(0,232,122,.1);--star:#b06aff;--star-dim:rgba(176,106,255,.1);--muted:#4a5e72;--white:#eaf2fa;}
+:root{--bg:#080b10;--surface:rgba(14,18,24,.62);--card:rgba(18,24,32,.60);--border:#1c2535;--border2:#243040;--yssy:#00d4ff;--ysws:#ff8c00;--sid:#00e87a;--sid-dim:rgba(0,232,122,.1);--star:#b06aff;--star-dim:rgba(176,106,255,.1);--muted:#4a5e72;--white:#eaf2fa;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:#c8d8e8;font-family:'JetBrains Mono',monospace;min-height:100vh;}
+body{
+  background:
+    radial-gradient(58% 66% at 20% 16%, rgba(122,136,150,.55), transparent 60%),
+    radial-gradient(64% 74% at 85% 26%, rgba(94,106,118,.48), transparent 60%),
+    radial-gradient(56% 66% at 46% 104%, rgba(104,116,128,.46), transparent 62%),
+    radial-gradient(34% 42% at 73% 52%, rgba(216,48,56,.42), transparent 54%),
+    radial-gradient(28% 34% at 12% 68%, rgba(192,40,48,.34), transparent 54%),
+    #060708;
+  background-attachment:fixed;
+  color:#c8d8e8;font-family:'JetBrains Mono',monospace;min-height:100vh;
+}
 .hdr{display:flex;align-items:center;gap:16px;padding:8px 20px;background:linear-gradient(180deg,#0c1420,var(--bg));border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.6);}
 .hdr-logo{font-family:'Oxanium',sans-serif;font-weight:800;font-size:15px;color:var(--white);}
 .ha{color:var(--yssy);}.hb{color:var(--star);}
@@ -32,16 +42,14 @@ body{background:var(--bg);color:#c8d8e8;font-family:'JetBrains Mono',monospace;m
 .sec-head::before{content:'';width:8px;height:8px;border-radius:50%;display:inline-block;}
 .sh-sid::before{background:var(--sid);box-shadow:0 0 6px var(--sid);}
 .sh-star::before{background:var(--star);box-shadow:0 0 6px var(--star);}
-.suburb-tab .sec-head{cursor:pointer;color:var(--white);font-weight:800;}
+.suburb-tab .sec-head{display:none;}
 .suburb-tab .sec-head::after{content:'▾';font-size:12px;color:var(--muted);display:inline-block;transition:transform .2s;margin-left:auto;}
 .sh-ysbk::before{background:#ffd700;box-shadow:0 0 6px #ffd700;}
 .sh-ysri::before{background:#5a7a2e;box-shadow:0 0 6px #5a7a2e;}
 .suburb-tab .sec-head.sec-open::after{transform:rotate(180deg);}
-.suburb-tab .sec-head+.grid{display:none;}
-.suburb-tab .sec-head.sec-open+.grid{display:block;}
-.grid{columns:300px;column-gap:14px;margin-bottom:8px;}
-.grid-across{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));column-gap:14px;align-items:start;}
-body.two-up .grid{display:grid;grid-template-columns:1fr 1fr;column-gap:14px;align-items:start;}
+.suburb-tab .sec-head+.grid{display:grid;}
+.grid,.grid-across{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));column-gap:14px;row-gap:0;grid-auto-rows:8px;align-items:start;margin-bottom:8px;}
+body.two-up .grid,body.two-up .grid-across{grid-template-columns:repeat(2,1fr);}
 body.two-up .heli{columns:2;}
 .card{background:var(--card);border:1px solid var(--border);border-radius:5px;overflow:hidden;transition:border-color .2s,transform .15s,box-shadow .2s;break-inside:avoid;display:inline-block;width:100%;margin-bottom:14px;}
 .card:hover{border-color:var(--border2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,.4);}
@@ -109,7 +117,7 @@ body.two-up .heli{columns:2;}
 .pin-star{align-self:center;flex-shrink:0;border:none;background:none;color:var(--muted);font-size:15px;line-height:1;padding:2px 3px;cursor:pointer;transition:color .15s,transform .15s;}
 .pin-star:hover{color:#ffd700;transform:scale(1.15);}
 .card.pinned .pin-star{color:#ffd700;}
-.pin-divider{grid-column:1/-1;border-top:1px solid rgba(255,215,0,.4);margin:2px 0 10px;}
+.pin-divider{grid-column:1/-1;column-span:all;border-top:1px solid rgba(255,215,0,.4);margin:2px 0 10px;}
 .card.open .card-hdr{background:rgba(255,255,255,.06);}
 .alt-panel{display:none;padding:8px 12px;background:rgba(0,212,255,.04);border-top:1px solid rgba(0,212,255,.12);}
 .card.alt-open .alt-panel{display:block;}
@@ -240,6 +248,21 @@ body.two-up .heli{columns:2;}
   <div class="sep-flt"></div>
   <button class="flt" onclick="flt('ysws','jet',this)">JET</button>
   <button class="flt" onclick="flt('ysws','nonjet',this)">NON-JET</button>
+  <div class="sep-flt"></div>
+  <button class="flt wide-toggle" onclick="toggleWide(this)">2-UP</button>
+</div>
+<div class="toolbar" id="tb-sbk" style="display:none">
+  <button class="flt on" onclick="fltCat('sbk','all',this)">ALL</button>
+  <button class="flt" onclick="fltCat('sbk','sid',this)">SID</button>
+  <button class="flt" onclick="fltCat('sbk','apch',this)">APCH</button>
+  <div class="sep-flt"></div>
+  <button class="flt wide-toggle" onclick="toggleWide(this)">2-UP</button>
+</div>
+<div class="toolbar" id="tb-sri" style="display:none">
+  <button class="flt on" onclick="fltCat('sri','all',this)">ALL</button>
+  <button class="flt" onclick="fltCat('sri','sid',this)">SID</button>
+  <button class="flt" onclick="fltCat('sri','star',this)">STAR</button>
+  <button class="flt" onclick="fltCat('sri','apch',this)">APCH</button>
   <div class="sep-flt"></div>
   <button class="flt wide-toggle" onclick="toggleWide(this)">2-UP</button>
 </div>
@@ -1210,8 +1233,10 @@ function showAP(id,btn){
   else if(id==='ga') btn.classList.add('ag');
   else if(id==='wp') btn.classList.add('awp');
   else if(id==='ac') btn.classList.add('aac');
-  document.getElementById('tb-yssy').style.display=id==='yssy'?'flex':'none';
-  document.getElementById('tb-ysws').style.display=id==='ysws'?'flex':'none';
+  document.querySelectorAll('.toolbar').forEach(function(tb){ tb.style.display='none'; });
+  var atb=document.getElementById('tb-'+id);
+  if(atb) atb.style.display='flex';
+  if(window.__masonry) window.__masonry();
 }
 const ALL_RWYS=['07','16l','16r','25','34l','34r','05','23'];
 const fltState={yssy:{type:null,rwy:null,cls:null},ysws:{type:null,rwy:null,cls:null}};
@@ -1259,6 +1284,17 @@ function flt(ap,type,btn){
     else if(bt===st.rwy||bt===st.cls)b.classList.add('on');
   });
 }
+// Type filter for merged suburb tabs (YSBK, YSRI)
+function fltCat(ap,cat,btn){
+  var grid=document.getElementById('g-'+ap); if(!grid) return;
+  var tb=document.getElementById('tb-'+ap);
+  if(tb) tb.querySelectorAll('.flt:not(.wide-toggle)').forEach(function(b){ b.classList.remove('on'); });
+  btn.classList.add('on');
+  grid.querySelectorAll('.card').forEach(function(c){
+    c.classList.toggle('hidden', !(cat==='all'||c.dataset.cat===cat));
+  });
+  if(window.__masonry) window.__masonry();
+}
 // Lightbox
 document.addEventListener('click',e=>{
   const img=e.target.closest('.plate-img img, .iva-sec-b img');
@@ -1273,24 +1309,9 @@ document.querySelectorAll('.card').forEach(function(card){
   if(!hdr)return;
   hdr.addEventListener('click',function(e){
     if(e.target.closest('.alt-btn, .pin-star'))return;
-    var isOpen=card.classList.contains('open');
-    if(!isOpen){
-      if(!card.classList.contains('open')&&!card.classList.contains('alt-open')){
-        card._origParent=card.parentNode;
-        card._origNext=card.nextSibling;
-      }
-      card.classList.add('open');
-      card.parentNode.insertBefore(card,card.parentNode.firstChild);
-    }else{
-      card.classList.remove('open');
-      if(!card.classList.contains('alt-open')&&card._origParent){
-        if(card._origNext&&card._origNext.parentNode===card._origParent){
-          card._origParent.insertBefore(card,card._origNext);
-        }else{
-          card._origParent.appendChild(card);
-        }
-      }
-    }
+    card.classList.toggle('open');
+    if(window.__pullOpenFirst) window.__pullOpenFirst(card.parentNode);
+    if(window.__masonry) window.__masonry();
   });
 });
 // Altitude data
@@ -2136,6 +2157,8 @@ shortenCardNames();
       cards.sort(function(a,b){
         var pa=a.classList.contains('pinned')?0:1, pb=b.classList.contains('pinned')?0:1;
         if(pa!==pb) return pa-pb;
+        var ea=(a.classList.contains('open')||a.classList.contains('alt-open'))?0:1, eb=(b.classList.contains('open')||b.classList.contains('alt-open'))?0:1;
+        if(ea!==eb) return ea-eb;
         return nameOf(a).localeCompare(nameOf(b));
       });
       cards.forEach(function(c){grid.appendChild(c);});
@@ -2147,6 +2170,7 @@ shortenCardNames();
         grid.insertBefore(div, pinned[pinned.length-1].nextSibling);
       }
     });
+    if(window.__masonry)window.__masonry();
   }
   GRIDS.forEach(function(id){
     var grid=document.getElementById(id); if(!grid) return;
@@ -2166,6 +2190,71 @@ shortenCardNames();
     });
   });
   sortPlates();
+})();
+// Merge YSBK/YSRI sub-grids into one alphabetical grid, tagging each card's real category
+(function(){
+  function nameOf(c){ var n=c.querySelector('.cn'); return n?n.textContent.trim():''; }
+  ['sbk','sri'].forEach(function(ap){
+    var tab=document.getElementById('ap-'+ap); if(!tab) return;
+    tab.querySelectorAll('.sec-head').forEach(function(sh){
+      var t=sh.textContent.toUpperCase();
+      var cat=t.indexOf('SID')>-1?'sid':((t.indexOf('APCH')>-1||t.indexOf('APPROACH')>-1)?'apch':'star');
+      var g=sh.nextElementSibling;
+      if(g&&g.classList.contains('grid')) g.querySelectorAll('.card').forEach(function(c){ c.dataset.cat=cat; });
+    });
+    var grids=tab.querySelectorAll('.grid');
+    if(!grids.length) return;
+    var main=grids[0];
+    var cards=Array.prototype.slice.call(tab.querySelectorAll('.card'));
+    cards.sort(function(a,b){ return nameOf(a).localeCompare(nameOf(b)); });
+    cards.forEach(function(c){ main.appendChild(c); });
+    main.id='g-'+ap;
+    for(var i=1;i<grids.length;i++){ if(grids[i].parentNode) grids[i].parentNode.removeChild(grids[i]); }
+    tab.querySelectorAll('.sec-head').forEach(function(sh){ if(sh.parentNode) sh.parentNode.removeChild(sh); });
+  });
+})();
+// Open cards always occupy the first slots; no closed card ever sits before an open card
+(function(){
+  function exp(c){ return c.classList.contains('open')||c.classList.contains('alt-open'); }
+  function pin(c){ return c.classList.contains('pinned'); }
+  window.__pullOpenFirst=function(grid){
+    if(!grid||!grid.querySelectorAll) return;
+    var cards=Array.prototype.slice.call(grid.querySelectorAll('.card'));
+    if(!cards.length) return;
+    var divider=grid.querySelector('.pin-divider');
+    var hasPin=cards.some(pin);
+    function pick(p,e){ return cards.filter(function(c){ return pin(c)===p&&exp(c)===e; }); }
+    if(divider&&hasPin){
+      pick(true,true).concat(pick(true,false)).forEach(function(c){ grid.appendChild(c); });
+      grid.appendChild(divider);
+      pick(false,true).concat(pick(false,false)).forEach(function(c){ grid.appendChild(c); });
+    } else {
+      cards.filter(exp).concat(cards.filter(function(c){ return !exp(c); })).forEach(function(c){ grid.appendChild(c); });
+    }
+  };
+})();
+// Masonry layout: pack cards into shortest column so no blank space sits beside an open card
+(function(){
+  var ROW=8, GAP=14;
+  var SEL='.grid > .card, .grid-across > .card, .grid > .pin-divider, .grid-across > .pin-divider';
+  function setSpan(el){
+    if(!el)return;
+    if(el.classList.contains('hidden')){ el.style.gridRowEnd=''; return; }
+    var h=el.getBoundingClientRect().height;
+    if(!h){ el.style.gridRowEnd=''; return; }
+    el.style.gridRowEnd='span '+Math.max(1,Math.ceil((h+GAP)/ROW));
+  }
+  function sweep(){ document.querySelectorAll(SEL).forEach(setSpan); }
+  window.__masonry=sweep;
+  if(window.ResizeObserver){
+    var ro=new ResizeObserver(function(ents){ ents.forEach(function(e){ setSpan(e.target); }); });
+    document.querySelectorAll('.grid > .card, .grid-across > .card').forEach(function(c){ ro.observe(c); });
+  }
+  window.addEventListener('resize',sweep);
+  window.addEventListener('load',function(){ setTimeout(sweep,0); });
+  if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(sweep); }
+  document.querySelectorAll('.plate-img img').forEach(function(img){ img.addEventListener('load',sweep); });
+  sweep();
 })();
 </script>
 </body></html>
