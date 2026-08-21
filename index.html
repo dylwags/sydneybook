@@ -204,6 +204,32 @@ body.two-up .heli{columns:2;}
 .ga-step{display:flex;gap:10px;font-size:12px;}
 .ga-key{font-family:'Oxanium',sans-serif;font-weight:700;color:var(--muted);min-width:70px;flex-shrink:0;text-transform:uppercase;font-size:10px;padding-top:1px;}
 .ga-val{color:#eaf2fa;line-height:1.4;}
+
+.heli-sec-b.flush{padding:0;}
+.hr-strip{display:flex;gap:16px;flex-wrap:wrap;padding:8px 14px;background:rgba(245,166,35,.06);border-bottom:1px solid var(--border);}
+.hr-chip-l{font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.2px;color:var(--muted);}
+.hr-chip-v{font-size:12px;color:var(--white);font-weight:500;}
+.hr-lad{padding:10px 14px 12px;}
+.hr-row{display:flex;gap:9px;}
+.hr-rail{width:9px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding-top:9px;background:linear-gradient(var(--border2),var(--border2)) center/1px 100% no-repeat;}
+.hr-lad .hr-row:first-child:not(.hr-leg) .hr-rail{background-image:linear-gradient(transparent 9px,var(--border2) 9px);}
+.hr-lad .hr-row:last-child .hr-rail{background-image:linear-gradient(var(--border2) 12px,transparent 12px);}
+.hr-dot{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--muted);background:#151b24;flex-shrink:0;}
+.hr-dot.s{border-color:#f5a623;background:#f5a623;}
+.hr-dot.e{border-radius:0;border-color:#f5a623;background:#f5a623;}
+.hr-pt{flex:1;font-size:11.5px;line-height:1.45;color:var(--white);padding:4px 0;}
+.hr-sub{display:block;font-size:10.5px;color:#7d8fa3;margin-top:1px;line-height:1.4;}
+.hr-tag{display:block;font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.2px;color:#f5a623;margin-top:3px;line-height:1.3;}
+.hr-legt{flex:1;font-size:10.5px;line-height:1.4;color:#5f7285;padding:1px 0 3px;}
+.hr-meta{display:flex;flex-direction:column;align-items:flex-end;gap:2px;padding:5px 0 0;}
+.hr-m{font-size:10.5px;font-weight:500;color:#f5a623;text-align:right;max-width:82px;line-height:1.35;}
+.hr-note{padding:9px 14px;border-top:1px solid var(--border);font-size:10.5px;line-height:1.55;color:#c8d8e8;background:rgba(245,166,35,.04);}
+.hr-src{padding:8px 14px;border-top:1px solid var(--border);font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.2px;color:var(--muted);cursor:pointer;display:flex;align-items:center;user-select:none;}
+.hr-src:hover{color:var(--white);}
+.hr-src::after{content:'▾';margin-left:auto;font-size:10px;transition:transform .2s;}
+.hr-src.open::after{transform:rotate(180deg);}
+.hr-srcb{display:none;padding:0 14px 12px;font-size:10.5px;line-height:1.65;color:#8fa2b5;}
+.hr-src.open + .hr-srcb{display:block;}
 </style>
 </head>
 <body>
@@ -692,26 +718,38 @@ body.two-up .heli{columns:2;}
     <div class="heli">
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Bondi 5 Southbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR from Sydney Heads E of the coast to Ben Buckler (northern headland of Bondi Beach)</li>
-            <li><b>Altitude:</b> Not above 1,000FT to Ben Buckler</li>
-            <li><b>Descent:</b> Descend to 500FT by Ben Buckler</li>
-            <li><b>Route cont.:</b> Thence TR E of the coast to Long Bay headland (southern headland of Maroubra Beach)</li>
-            <li><b>Altitude cont.:</b> 500FT</li>
-            <li><b>If landing at YSSY:</b> Contact SY TWR 124.7 approaching Maroubra Beach</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">1,000 &rarr; 500FT</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">Sydney Heads</div><div class="hr-meta"><div class="hr-m">NOT ABV 1,000FT</div></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">E of the coast</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Ben Buckler<span class="hr-sub">northern headland of Bondi Beach</span></div><div class="hr-meta"><div class="hr-m">&darr; 500FT by</div></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">E of the coast</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Long Bay headland<span class="hr-sub">southern headland of Maroubra Beach</span></div><div class="hr-meta"><div class="hr-m">500FT</div></div></div>
+          </div>
+          <div class="hr-note">If intending to land at YSSY, contact SY TWR 124.7 approaching Maroubra Beach.</div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">At ALT not above 1,000FT TR from Sydney Heads E of the coast to Ben Buckler (northern headland of Bondi Beach); descend to 500FT by Ben Buckler; thence TR E of the coast to Long Bay headland (southern headland of Maroubra Beach); ALT 500FT. If intending to land at SY Airport contact SY Tower 124.7 approaching Maroubra Beach.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Bondi 5 Northbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR E of the coast from Long Bay headland (southern headland of Maroubra Beach) to Ben Buckler (northern headland of Bondi Beach)</li>
-            <li><b>Altitude:</b> 500FT</li>
-            <li><b>Climb:</b> Thence climb to not above 1,000FT and remain E of the coast to Sydney Heads</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">500 &rarr; 1,000FT</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">Long Bay headland<span class="hr-sub">southern headland of Maroubra Beach</span></div><div class="hr-meta"><div class="hr-m">500FT</div></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">E of the coast</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Ben Buckler<span class="hr-sub">northern headland of Bondi Beach</span></div><div class="hr-meta"><div class="hr-m">500FT</div></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">climb, remain E of the coast</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Sydney Heads</div><div class="hr-meta"><div class="hr-m">&uarr; NOT ABV 1,000FT</div></div></div>
+          </div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR E of the coast from Long Bay headland (southern headland of Maroubra Beach) to Ben Buckler (northern headland of Bondi Beach); ALT 500FT; thence climb to not above 1,000FT and remain E of the coast to Sydney Heads.</div>
         </div>
       </div>
 
@@ -728,144 +766,235 @@ body.two-up .heli{columns:2;}
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Rosehill 5 Inbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR FM Rosehill Racecourse to Rookwood Cemetery, then via the Cooks River and Canterbury Racecourse to the Novotel (Sydney International Airport) Hotel</li>
-            <li><b>Altitude:</b> 1,000FT</li>
-            <li><b>Descent:</b> At Canterbury Racecourse descend to 500FT</li>
-            <li><b>Clearance Limit:</b> Novotel (Sydney International Airport) Hotel</li>
-            <li><b>Freq Transfer:</b> Contact TWR 120.5 at Canterbury Racecourse</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">1,000 &rarr; 500FT</div></div>
+            <div class="hr-chip"><div class="hr-chip-l">TWR</div><div class="hr-chip-v">120.5 at Canterbury</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">Rosehill Racecourse</div><div class="hr-meta"><div class="hr-m">1,000FT</div></div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Rookwood Cemetery</div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">via the Cooks River</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Canterbury Racecourse</div><div class="hr-meta"><div class="hr-m">&darr; 500FT</div><div class="hr-m">TWR 120.5</div></div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">Novotel<span class="hr-sub">Sydney International Airport Hotel</span><span class="hr-tag">CLEARANCE LIMIT</span></div></div>
+          </div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR FM Rosehill Racecourse to Rookwood Cemetery, then via the Cooks River and Canterbury Racecourse to the Novotel (Sydney International Airport) Hotel; ALT 1,000FT. At Canterbury Racecourse descend to 500FT. Clearance Limit: Novotel (Sydney International Airport) Hotel. Contact TWR 120.5 at Canterbury Racecourse.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Rosehill 5 Outbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR via the Novotel (Sydney International Airport) Hotel and the Cooks River to Rookwood Cemetery, then direct to Rosehill Racecourse</li>
-            <li><b>Altitude:</b> 1,000FT</li>
-            <li><b>Freq Change:</b> At Rookwood Cemetery — control service terminated at Rookwood Cemetery</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">1,000FT</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">Novotel<span class="hr-sub">Sydney International Airport Hotel</span></div><div class="hr-meta"><div class="hr-m">1,000FT</div></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">via the Cooks River</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">Rookwood Cemetery<span class="hr-tag">CONTROL SERVICE TERMINATED</span></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">direct</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Rosehill Racecourse</div></div>
+          </div>
+          <div class="hr-note">FREQ change at Rookwood Cemetery approved.</div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR via the Novotel (Sydney International Airport) Hotel and the Cooks River to Rookwood Cemetery, then direct to Rosehill Racecourse; ALT 1,000FT. FREQ change at Rookwood Cemetery approved, control service terminated at Rookwood Cemetery.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Harbour Bridge 5 Inbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR South Pylon of the Harbour Bridge to Darling Harbour, thence Central Railway, thence via the railway line to Redfern Railway Station, thence via Erskineville Oval</li>
-            <li><b>Altitude:</b> 1,000FT</li>
-            <li><b>Descent:</b> Thence DCT to The Stamford on descent to 500FT</li>
-            <li><b>Clearance Limit:</b> The Stamford</li>
-            <li><b>Freq Transfer:</b> Contact TWR 124.7 at Erskineville Oval</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">1,000 &rarr; 500FT</div></div>
+            <div class="hr-chip"><div class="hr-chip-l">TWR</div><div class="hr-chip-v">124.7 at Erskineville</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">South Pylon, Harbour Bridge<span class="hr-sub">arrival from R407B</span></div><div class="hr-meta"><div class="hr-m">1,000FT</div></div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Darling Harbour</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Central Railway</div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">via the railway line</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Redfern Railway Station</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Erskineville Oval</div><div class="hr-meta"><div class="hr-m">TWR 124.7</div></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">direct, on descent</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">The Stamford<span class="hr-tag">CLEARANCE LIMIT</span></div><div class="hr-meta"><div class="hr-m">500FT</div></div></div>
+          </div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR South Pylon of the Harbour Bridge to Darling Harbour thence Central Railway thence via the railway line to Redfern Railway Station, thence via Erskineville Oval; ALT 1,000FT; thence DCT to The Stamford on descent to 500FT. Clearance Limit: The Stamford. Contact TWR 124.7 at Erskineville Oval.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Harbour Bridge 5 Outbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR via The Stamford to Erskineville Oval, thence via Redfern Railway Station and the railway line to Central Railway, thence DCT to Darling Harbour, thence over water to South Pylon of the Harbour Bridge to enter R407B</li>
-            <li><b>Altitude:</b> 1,000FT</li>
-            <li><b>Freq Change:</b> At Central Railway — control service terminated at Central Railway</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">1,000FT</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">The Stamford<span class="hr-sub">entry to R407B</span></div><div class="hr-meta"><div class="hr-m">1,000FT</div></div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Erskineville Oval</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Redfern Railway Station</div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">via the railway line</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">Central Railway<span class="hr-tag">CONTROL SERVICE TERMINATED</span></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">direct</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Darling Harbour</div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">over water</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">South Pylon, Harbour Bridge<span class="hr-sub">enter R407B</span></div></div>
+          </div>
+          <div class="hr-note">FREQ change at Central Railway approved.</div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR via The Stamford to Erskineville Oval thence via Redfern Railway Station and the railway line to Central Railway thence DCT to Darling Harbour thence over water to South Pylon of the Harbour Bridge to enter R407B; ALT 1,000FT. FREQ change at Central Railway approved, control service terminated at Central Railway.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Barracks 5 Inbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR FM Rushcutters Bay to Victoria Barracks; then via the SCG to Moore Park Supa Centre (corner Dacey Avenue and South Dowling Street), thence E of South Dowling Street and Southern Cross Drive via Gardeners Road thence Wentworth Avenue overpasses</li>
-            <li><b>Altitude:</b> 1,000FT from Rushcutters Bay</li>
-            <li><b>Descent:</b> On descent to 500FT at Wentworth Avenue overpasses</li>
-            <li><b>Clearance Limit:</b> Road junction overpass at the intersection of Southern Cross Drive and Wentworth Avenue</li>
-            <li><b>Freq Transfer:</b> Contact TWR 124.7 at the SCG</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">1,000 &rarr; 500FT</div></div>
+            <div class="hr-chip"><div class="hr-chip-l">TWR</div><div class="hr-chip-v">124.7 at the SCG</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">Rushcutters Bay</div><div class="hr-meta"><div class="hr-m">1,000FT</div></div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Victoria Barracks</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">SCG</div><div class="hr-meta"><div class="hr-m">TWR 124.7</div></div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Moore Park Supa Centre<span class="hr-sub">cnr Dacey Avenue and South Dowling Street</span></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">E of South Dowling Street and Southern Cross Drive, via Gardeners Road</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Wentworth Avenue overpasses</div><div class="hr-meta"><div class="hr-m">&darr; 500FT</div></div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">Southern Cross Drive / Wentworth Avenue<span class="hr-sub">road junction overpass</span><span class="hr-tag">CLEARANCE LIMIT</span></div></div>
+          </div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR FM Rushcutters Bay to Victoria Barracks; ALT 1,000FT; then via the SCG to Moore Park Supa Centre (corner Dacey Avenue and South Dowling Street), thence E of South Dowling Street and Southern Cross Drive via Gardeners Road thence Wentworth Avenue overpasses on descent to 500FT. Clearance Limit: Road junction overpass at the intersection of Southern Cross Drive and Wentworth Avenue. Contact TWR 124.7 at the SCG.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Barracks 5 Outbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR E of Southern Cross Drive and South Dowling Street to the Moore Park Supa Centre (corner Dacey Avenue and South Dowling Street), thence via Victoria Barracks to Rushcutters Bay</li>
-            <li><b>Altitude:</b> 1,000FT</li>
-            <li><b>Freq Change:</b> At Rushcutters Bay — control service terminated at Rushcutters Bay</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">1,000FT</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">E of Southern Cross Drive and South Dowling Street</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">Moore Park Supa Centre<span class="hr-sub">cnr Dacey Avenue and South Dowling Street</span></div><div class="hr-meta"><div class="hr-m">1,000FT</div></div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Victoria Barracks</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">Rushcutters Bay<span class="hr-tag">CONTROL SERVICE TERMINATED</span></div></div>
+          </div>
+          <div class="hr-note">FREQ change at Rushcutters Bay approved.</div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR E of Southern Cross Drive and South Dowling Street to the Moore Park Supa Centre (corner Dacey Avenue and South Dowling Street); ALT 1,000FT, thence via Victoria Barracks to Rushcutters Bay. FREQ change at Rushcutters Bay approved, control service terminated at Rushcutters Bay.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Maroubra 5 Inbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR FM Maroubra Beach via Fitzgerald Avenue to Bunnerong Road (Heffron Park) to East Gardens Shopping Centre; thence N of Wentworth Avenue to the intersection with Southern Cross Drive</li>
-            <li><b>Altitude:</b> 1,000FT (climb over water)</li>
-            <li><b>Descent:</b> On descent to 500FT at intersection of Wentworth Avenue and Southern Cross Drive</li>
-            <li><b>Clearance Limit:</b> Road junction overpass at the intersection of Wentworth Avenue and Southern Cross Drive</li>
-            <li><b>Freq Transfer:</b> Contact TWR 124.7 at Heffron Park</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">1,000 &rarr; 500FT</div></div>
+            <div class="hr-chip"><div class="hr-chip-l">TWR</div><div class="hr-chip-v">124.7 at Heffron Park</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">Maroubra Beach<span class="hr-sub">climb over water</span></div><div class="hr-meta"><div class="hr-m">1,000FT</div></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">via Fitzgerald Avenue</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Bunnerong Road<span class="hr-sub">Heffron Park</span></div><div class="hr-meta"><div class="hr-m">TWR 124.7</div></div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">East Gardens Shopping Centre</div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">N of Wentworth Avenue, on descent</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">Wentworth Avenue / Southern Cross Drive<span class="hr-sub">road junction overpass</span><span class="hr-tag">CLEARANCE LIMIT</span></div><div class="hr-meta"><div class="hr-m">500FT</div></div></div>
+          </div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR FM Maroubra Beach via Fitzgerald Avenue to Bunnerong Road (Heffron Park) to East Gardens Shopping Centre; ALT 1,000FT (climb over water), thence N of Wentworth Avenue to the intersection with Southern Cross Drive on descent to 500FT. Clearance Limit: Road junction overpass at the intersection of Wentworth Avenue and Southern Cross Drive. Contact TWR 124.7 at Heffron Park.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Maroubra 5 Outbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR via Southern Cross Drive and N of Wentworth Avenue to East Gardens Shopping Centre, thence via Fitzgerald Avenue to Maroubra Beach</li>
-            <li><b>Altitude:</b> 1,000FT</li>
-            <li><b>Descent:</b> E of the coast descend to 500FT</li>
-            <li><b>Freq Change:</b> At Maroubra Beach — control service terminated at Maroubra Beach if entering V1</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">1,000 &rarr; 500FT</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">via Southern Cross Drive, N of Wentworth Avenue</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">East Gardens Shopping Centre</div><div class="hr-meta"><div class="hr-m">1,000FT</div></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">via Fitzgerald Avenue</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">Maroubra Beach<span class="hr-sub">E of the coast descend to 500FT</span><span class="hr-tag">CONTROL SERVICE TERMINATED IF ENTERING V1</span></div><div class="hr-meta"><div class="hr-m">&darr; 500FT</div></div></div>
+          </div>
+          <div class="hr-note">FREQ change and control service termination at Maroubra Beach apply only if entering V1.</div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR via Southern Cross Drive and N of Wentworth Avenue to East Gardens Shopping Centre; ALT 1,000FT, thence via Fitzgerald Avenue to Maroubra Beach. E of the coast descend to 500FT. FREQ change at Maroubra Beach approved if entering V1, control service terminated at Maroubra Beach if entering V1.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Cape Banks 5 Inbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR FM Cape Banks, thence via the eastern shore of Botany Bay to the Port Botany Container Terminal</li>
-            <li><b>Altitude:</b> 500FT</li>
-            <li><b>Clearance Limit:</b> Container Terminal</li>
-            <li><b>Freq Transfer:</b> Contact TWR 124.7 for airways clearance</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">500FT</div></div>
+            <div class="hr-chip"><div class="hr-chip-l">TWR</div><div class="hr-chip-v">124.7 for clearance</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">Cape Banks</div><div class="hr-meta"><div class="hr-m">500FT</div></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">via the eastern shore of Botany Bay</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">Port Botany Container Terminal<span class="hr-tag">CLEARANCE LIMIT</span></div></div>
+          </div>
+          <div class="hr-note">Pilots must contact TWR 124.7 for airways clearance (FAC 15.2 c).</div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR FM Cape Banks, thence via the eastern shore of Botany Bay to the Port Botany Container Terminal; ALT 500FT. Clearance Limit: Container Terminal.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Cape Banks 5 Outbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR via the road junction overpass at the intersection of General Holmes Drive and Foreshore Road, thence via the Mill Stream and the eastern shore of Botany Bay to Cape Banks</li>
-            <li><b>Altitude:</b> 500FT</li>
-            <li><b>Freq Change:</b> At Cape Banks — control service terminated at Cape Banks</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">500FT</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">General Holmes Drive / Foreshore Road<span class="hr-sub">road junction overpass</span></div><div class="hr-meta"><div class="hr-m">500FT</div></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">via the Mill Stream and the eastern shore of Botany Bay</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">Cape Banks<span class="hr-tag">CONTROL SERVICE TERMINATED</span></div></div>
+          </div>
+          <div class="hr-note">FREQ change at Cape Banks approved.</div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR via the road junction overpass at the intersection of General Holmes Drive and Foreshore Road, thence via the Mill Stream and the eastern shore of Botany Bay to Cape Banks; ALT 500FT. FREQ change at Cape Banks approved, control service terminated at Cape Banks.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Wanda 5 Inbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR FM Wanda Beach, thence DCT to Towra Point to Dolls Point, thence via the W shore of Botany Bay to ABM the Brighton Novotel, remaining over water</li>
-            <li><b>Altitude:</b> 500FT</li>
-            <li><b>Clearance Limit:</b> The Brighton Novotel</li>
-            <li><b>Freq Transfer:</b> Contact TWR 120.5 for airways clearance</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">500FT</div></div>
+            <div class="hr-chip"><div class="hr-chip-l">TWR</div><div class="hr-chip-v">120.5 for clearance</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">Wanda Beach</div><div class="hr-meta"><div class="hr-m">500FT</div></div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">direct</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Towra Point</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Dolls Point</div></div>
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">via the W shore of Botany Bay, remaining over water</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">ABM The Brighton Novotel<span class="hr-tag">CLEARANCE LIMIT</span></div></div>
+          </div>
+          <div class="hr-note">Pilots must contact TWR 120.5 for airways clearance (FAC 15.2 d).</div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR FM Wanda Beach, thence DCT to Towra Point to Dolls Point, thence via the W shore of Botany Bay to ABM the Brighton Novotel, remaining over water; ALT 500FT. Clearance Limit: The Brighton Novotel.</div>
         </div>
       </div>
 
       <div class="heli-sec">
         <div class="heli-sec-h" onclick="toggleHeli(this)"><span class="heli-name">Wanda 5 Outbound</span><button class="heli-btn">SHOW</button></div>
-        <div class="heli-sec-b">
-          <ul>
-            <li><b>Route:</b> TR via the western shore of Botany Bay to Dolls Point, remaining over water at all times, thence Towra Point to Wanda Beach</li>
-            <li><b>Altitude:</b> 500FT</li>
-            <li><b>Freq Change:</b> At Wanda Beach — control service terminated at Wanda Beach</li>
-          </ul>
+        <div class="heli-sec-b flush">
+          <div class="hr-strip">
+            <div class="hr-chip"><div class="hr-chip-l">ALT</div><div class="hr-chip-v">500FT</div></div>
+          </div>
+          <div class="hr-lad">
+            <div class="hr-row hr-leg"><div class="hr-rail"></div><div class="hr-legt">via the western shore of Botany Bay, remaining over water at all times</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot s"></div></div><div class="hr-pt">Dolls Point</div><div class="hr-meta"><div class="hr-m">500FT</div></div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot m"></div></div><div class="hr-pt">Towra Point</div></div>
+            <div class="hr-row"><div class="hr-rail"><div class="hr-dot e"></div></div><div class="hr-pt">Wanda Beach<span class="hr-tag">CONTROL SERVICE TERMINATED</span></div></div>
+          </div>
+          <div class="hr-note">FREQ change at Wanda Beach approved.</div>
+          <div class="hr-src" onclick="this.classList.toggle('open')">FAC TEXT</div>
+          <div class="hr-srcb">TR via the western shore of Botany Bay to Dolls Point, remaining over water at all times, thence Towra Point to Wanda Beach; ALT 500FT. FREQ change at Wanda Beach approved, control service terminated at Wanda Beach.</div>
         </div>
       </div>
 
