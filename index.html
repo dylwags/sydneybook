@@ -6,7 +6,7 @@
 <title>Sydney Info</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap');
-:root{--bg:#080b10;--surface:rgba(14,18,24,.62);--card:rgba(18,24,32,.60);--border:#1c2535;--border2:#243040;--yssy:#00d4ff;--ysws:#ff8c00;--sid:#00e87a;--sid-dim:rgba(0,232,122,.1);--star:#b06aff;--star-dim:rgba(176,106,255,.1);--muted:#4a5e72;--white:#eaf2fa;}
+:root{--bg:#080b10;--surface:rgba(14,18,24,.62);--card:rgba(18,24,32,.60);--border:#1c2535;--border2:#243040;--yssy:#00d4ff;--ysws:#ff8c00;--sid:#3d8bff;--sid-dim:rgba(61,139,255,.12);--star:#ff3b5c;--star-dim:rgba(255,59,92,.12);--ok:#00e87a;--muted:#4a5e72;--white:#eaf2fa;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{
   background:
@@ -44,6 +44,7 @@ body{
 .sec-head{font-family:'Oxanium',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;padding:16px 0 8px;border-bottom:1px solid var(--border);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
 .sec-head::before{content:'';width:8px;height:8px;border-radius:50%;display:inline-block;}
 .sh-sid::before{background:var(--sid);box-shadow:0 0 6px var(--sid);}
+.sh-vfr::before{background:var(--ok);box-shadow:0 0 6px var(--ok);}
 .sh-star::before{background:var(--star);box-shadow:0 0 6px var(--star);}
 .suburb-tab .sec-head{display:none;}
 .suburb-tab .sec-head::after{content:'▾';font-size:12px;color:var(--muted);display:inline-block;transition:transform .2s;margin-left:auto;}
@@ -61,12 +62,12 @@ body.two-up .heli{columns:2;}
 .card.hidden{display:none!important;}
 .card-hdr{padding:9px 12px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:8px;cursor:pointer;user-select:none;}
 .ct{font-size:8px;letter-spacing:2px;font-weight:700;padding:2px 6px;border-radius:2px;flex-shrink:0;margin-top:2px;}
-.ct-sid{background:var(--sid-dim);color:var(--sid);border:1px solid rgba(0,232,122,.3);}
-.ct-star{background:var(--star-dim);color:var(--star);border:1px solid rgba(176,106,255,.3);}
+.ct-sid{background:var(--sid-dim);color:var(--sid);border:1px solid rgba(61,139,255,.32);}
+.ct-star{background:var(--star-dim);color:var(--star);border:1px solid rgba(255,59,92,.32);}
 .cn{font-family:'Oxanium',sans-serif;font-weight:700;font-size:21px;color:var(--white);flex:1;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .cr{font-size:8px;letter-spacing:1px;font-weight:700;color:var(--muted);background:rgba(255,255,255,.04);padding:2px 6px;border-radius:2px;flex-shrink:0;white-space:nowrap;}
-.card.sid .cr{background:var(--sid-dim);color:var(--sid);border:1px solid rgba(0,232,122,.3);}
-.card.star .cr{background:var(--star-dim);color:var(--star);border:1px solid rgba(176,106,255,.3);}
+.card.sid .cr{background:var(--sid-dim);color:var(--sid);border:1px solid rgba(61,139,255,.32);}
+.card.star .cr{background:var(--star-dim);color:var(--star);border:1px solid rgba(255,59,92,.32);}
 .plate-img{padding:6px;background:#1a1f2a;}
 .plate-img img{width:100%;display:block;border-radius:3px;cursor:zoom-in;}
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:1000;align-items:center;justify-content:center;cursor:zoom-out;}
@@ -86,7 +87,7 @@ body.two-up .heli{columns:2;}
 .iva-sec-h{font-family:'Oxanium',sans-serif;font-weight:700;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;padding:11px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid transparent;color:var(--white);display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;transition:background .15s;}
 .iva-sec-h:hover{background:rgba(255,255,255,.06);}
 .iva-sec-h::before{content:'';width:6px;height:6px;border-radius:50%;background:#ff5a5f;box-shadow:0 0 6px #ff5a5f;flex-shrink:0;}
-.iva-sec-h.ok::before{background:var(--sid);box-shadow:0 0 6px var(--sid);}
+.iva-sec-h.ok::before{background:var(--ok);box-shadow:0 0 6px var(--ok);}
 .iva-sec-h.info::before{background:var(--yssy);box-shadow:0 0 6px var(--yssy);}
 .iva-sec-h::after{content:'▾';margin-left:auto;font-size:10px;color:var(--muted);transition:transform .2s;}
 .iva-sec.open .iva-sec-h{border-bottom-color:var(--border);}
@@ -98,7 +99,7 @@ body.two-up .heli{columns:2;}
 .iva-sec-b li::before{content:'▸';position:absolute;left:0;color:var(--muted);font-size:10px;top:8px;}
 .iva-sec-b li b{color:var(--white);font-weight:500;}
 .iva-sec-b li .hi{color:#ff8a8e;font-weight:500;}
-.iva-sec-b li .ok{color:var(--sid);font-weight:500;}
+.iva-sec-b li .ok{color:var(--ok);font-weight:500;}
 .iva-sec-b p{font-size:12px;line-height:1.6;color:#c8d8e8;margin:4px 0;}
 .iva-speeds{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;}
 .iva-spd{background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.2);border-radius:3px;padding:10px 12px;}
@@ -110,7 +111,7 @@ body.two-up .heli{columns:2;}
 .iva-rep-w{font-size:10px;letter-spacing:1.5px;color:var(--white);font-family:'Oxanium',sans-serif;font-weight:700;text-transform:uppercase;margin-bottom:4px;}
 .iva-rep-c{font-size:12px;color:#c8d8e8;line-height:1.55;}
 .iva-rep-c b{color:var(--white);}
-.iva-rep-c .call{color:var(--sid);font-weight:500;}
+.iva-rep-c .call{color:var(--ok);font-weight:500;}
 .iva-summary{background:linear-gradient(135deg,rgba(0,232,122,.06),rgba(0,212,255,.04));border:1px solid rgba(0,232,122,.2);border-radius:5px;padding:14px 18px;margin-top:18px;font-size:12px;color:#eaf2fa;line-height:1.6;text-align:center;font-family:'Oxanium',sans-serif;font-weight:600;letter-spacing:.5px;}
 .plate-img{display:none;}
 .card.open .plate-img{display:block;}
@@ -192,6 +193,9 @@ body.two-up .heli{columns:2;}
 .wp-row:hover{background:var(--border);}
 .wp-row.selected{background:rgba(125,211,252,0.15);outline:1px solid rgba(125,211,252,0.3);border-radius:4px;}
 .wp-row.selected .wp-code{color:#f472b6;}
+.wp-plotbar{font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:2px;color:var(--muted);padding:0 0 12px;display:flex;align-items:center;}
+.wp-plotbar.on{color:#f472b6;}
+.wp-plotbar.on .map-all{border-color:rgba(244,114,182,.45);color:#f472b6;}
 .wp-row.hidden{display:none;}
 .wp-code{font-family:'Oxanium',sans-serif;font-weight:700;color:#7dd3fc;min-width:52px;font-size:11px;flex-shrink:0;}
 .wp-name{color:var(--white);font-size:11px;}
@@ -1555,8 +1559,9 @@ body.two-up .heli{columns:2;}
     <div class="wp-search-wrap">
       <input type="text" id="wp-search" class="wp-search" placeholder="Search name or code...">
     </div>
+    <div class="wp-plotbar" id="wp-plotbar"><span id="wp-plotcount">NOTHING PLOTTED</span><button class="map-all" type="button" id="wp-clear">CLEAR</button></div>
     <div id="wp-pane-vfr" class="wp-pane on">
-      <div class="sec-head sh-sid">VFR WAYPOINTS</div>
+      <div class="sec-head sh-vfr">VFR WAYPOINTS</div>
       <div class="wp-grid" id="wp-vfr"></div>
     </div>
     <div id="wp-pane-ad" class="wp-pane">
@@ -1595,6 +1600,7 @@ body.two-up .heli{columns:2;}
         <input type="text" id="map-search" class="wp-search" placeholder="Plot a waypoint...">
         <div id="map-hits" class="map-hits"></div>
       </div>
+      <div class="map-legend-h">PLOTTED<button class="map-all" type="button" id="map-clear">CLEAR</button></div>
       <div class="map-plotted" id="map-plotted"></div>
       <div class="map-key"><span><i style="background:#00e5ff"></i>IFR</span><span><i style="background:#ffc400"></i>VFR</span><span><i class="sq" style="background:#4ade80"></i>AD</span><span><i class="cr" style="background:#f0f6ff"></i>HOSP</span></div>
       <div class="map-legend-h">HELI ROUTES<button class="map-all" type="button" id="heli-all">ALL</button></div>
@@ -3070,18 +3076,29 @@ var MAP_DATA={"ad":{"YSSY":[-33.9461,151.1772],"YSWS":[-33.8908,150.7183],"YSBK"
     for(var k in MAP_DATA.ad){
       var p=proj(MAP_DATA.ad[k][0],MAP_DATA.ad[k][1]);
       var rws=(MAP_DATA.rwy||{})[k]||[];
+      var cas=Math.min(9,3.4+view.z*0.5);
+      // marker first, strips over the top of it. It used to paint last and at low
+      // zoom the field is only a few px across, so it hid the very thing it marked.
+      if(!rws.length||view.z<2)
+        svg.appendChild(el('rect',{x:p[0]-3.5,y:p[1]-3.5,width:7,height:7,fill:'#eaf2fa'}));
       // runway strips, drawn to scale: YSSY 16R/34L is 2.1NM so ~12px at 1x, and they
       // grow with zoom. Thick enough to read as a strip rather than a hairline.
+      var ybot=p[1];
       rws.forEach(function(r){
         var a=proj(r.a[0],r.a[1]), b=proj(r.b[0],r.b[1]);
+        if(a[1]>ybot) ybot=a[1];
+        if(b[1]>ybot) ybot=b[1];
         svg.appendChild(el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'#050a10',
-          'stroke-width':Math.min(9,3.4+view.z*0.5),'stroke-linecap':'butt',opacity:.85}));
+          'stroke-width':cas,'stroke-linecap':'butt',opacity:.85}));
         svg.appendChild(el('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'#eaf2fa',
           'stroke-width':Math.min(6,1.8+view.z*0.32),'stroke-linecap':'butt'}));
       });
-      if(!rws.length||view.z<2)
-        svg.appendChild(el('rect',{x:p[0]-3.5,y:p[1]-3.5,width:7,height:7,fill:'#eaf2fa'}));
-      svg.appendChild(txt(p[0]+9,p[1]+4,k,{fill:'#eaf2fa',size:14,weight:600}));
+      // YSSY carries no label: three strips in that arrangement is Sydney and nothing
+      // else. The other three sit centred below their southernmost threshold, clear of
+      // the casing, so the name never lands on a strip at any zoom.
+      if(k!=='YSSY')
+        svg.appendChild(txt(p[0],ybot+cas/2+13,k,
+          {fill:'#eaf2fa',size:14,weight:600,anchor:'middle',halo:3}));
       if(view.z>=5) rws.forEach(function(r){
         var m=proj((r.a[0]+r.b[0])/2,(r.a[1]+r.b[1])/2);
         svg.appendChild(txt(m[0],m[1]-9,r.r,{fill:'#9fb3c8',size:10,weight:600,anchor:'middle',halo:2.6}));
@@ -3136,12 +3153,18 @@ var MAP_DATA={"ad":{"YSSY":[-33.9461,151.1772],"YSWS":[-33.8908,150.7183],"YSBK"
       c.className='map-chip';
       c.style.borderColor=cc; c.style.background=cc+'22';
       c.innerHTML='<b style="color:'+cc+'">'+w.code+'</b>'+w.txt+'<i>&times;</i>';
-      c.querySelector('i').onclick=function(){ plotted.splice(i,1); chips(); draw(); };
+      c.querySelector('i').onclick=function(){
+        var gone=plotted.splice(i,1)[0];
+        if(gone&&WPROW[gone.code]) WPROW[gone.code].classList.remove('selected');
+        chips(); draw();
+      };
       box.appendChild(c);
     });
+    plotCount();
   }
   window.__mapPlot=function(code){
     var w=MAP_DATA.wp[code]; if(!w) return false;
+    if(WPROW[code]) WPROW[code].classList.add('selected');
     if(plotted.some(function(x){return x.code===code;})) return true;
     plotted.push({code:code,lat:w[0],lon:w[1],kind:w[2],
       txt:('00'+w[3]).slice(-3)+'° / '+w[4].toFixed(1)+'NM'});
@@ -3239,14 +3262,58 @@ var MAP_DATA={"ad":{"YSSY":[-33.9461,151.1772],"YSWS":[-33.8908,150.7183],"YSBK"
     if(!e.target.closest('.map-find'))
       document.querySelectorAll('.map-hits').forEach(function(x){x.classList.remove('on');});
   });
+  // ---- WP'S tab <-> map selection sync ---------------------------------------
+  // Selecting rows in WP'S drives `plotted` directly, and never switches tab: the
+  // picks stack up quietly and you come to the MAP tab when you're ready.
+  // Highlighting is its own feature though - it doubles as a shortlist for reading
+  // codes off a stack of flight plans - so every row highlights identically, whether
+  // or not it can plot. The 182 codes outside the 185NM window simply don't add a pin;
+  // they are not marked out or dimmed, since the list is read far more than it's plotted.
+  var WPROW={};
+  function indexRows(){
+    document.querySelectorAll('#ap-wp .wp-row').forEach(function(r){
+      var c=r.querySelector('.wp-code'); if(!c) return;
+      WPROW[c.textContent.trim()]=r;
+    });
+  }
+  function plotCount(){
+    var bar=document.getElementById('wp-plotbar'), n=plotted.length;
+    if(!bar) return;
+    bar.classList.toggle('on',n>0);
+    document.getElementById('wp-plotcount').textContent=
+      n===0?'NOTHING PLOTTED':n===1?'1 PLOTTED ON MAP':n+' PLOTTED ON MAP';
+  }
+  window.__mapUnplot=function(code){
+    for(var i=0;i<plotted.length;i++) if(plotted[i].code===code){
+      plotted.splice(i,1); chips(); draw(); return true;
+    }
+    return false;
+  };
+  // Clears the MAP only. A highlight on a row that never plotted is a shortlist the
+  // user built to read flight plans off, so CLEAR must not touch it.
+  window.__mapClear=function(){
+    plotted.forEach(function(w){
+      if(WPROW[w.code]) WPROW[w.code].classList.remove('selected');
+    });
+    plotted.length=0;
+    chips(); draw();
+  };
+
   var wpTab=document.getElementById('ap-wp');
   if(wpTab) wpTab.addEventListener('click',function(e){
     var row=e.target.closest('.wp-row'); if(!row) return;
-    var code=(row.querySelector('.wp-code')||{}).textContent;
-    if(code) window.__mapPlot(code.trim());
+    var c=row.querySelector('.wp-code'); if(!c) return;
+    var code=c.textContent.trim();
+    // the WP'S renderer's own listener toggled .selected first, so read it back
+    if(row.classList.contains('selected')) window.__mapPlot(code);
+    else window.__mapUnplot(code);
+  });
+  ['wp-clear','map-clear'].forEach(function(id){
+    var b=document.getElementById(id);
+    if(b) b.onclick=function(){ window.__mapClear(); };
   });
 
-  legend(); syncAll(); heliGrid(); syncHeli(); draw();
+  legend(); syncAll(); heliGrid(); syncHeli(); indexRows(); plotCount(); draw();
 })();
 </script>
 </body></html>
