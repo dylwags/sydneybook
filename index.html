@@ -183,7 +183,6 @@ body.two-up .heli{columns:2;}
 .tab.aac{color:#b794f6;border-bottom-color:#b794f6;}
 .ac-row .wp-code{color:#b794f6;}
 .sh-ac::before{background:#b794f6;box-shadow:0 0 6px #b794f6;}
-.ga-wrap{max-width:980px;margin:0 auto;padding:8px 0 80px;}
 .wp-wrap{max-width:980px;margin:0 auto;padding:8px 0 80px;}
 .wp-search-wrap{padding:10px 0 16px;}
 .wp-search{background:var(--card);border:1px solid var(--border2);color:var(--white);font-family:'JetBrains Mono',monospace;font-size:13px;padding:8px 14px;border-radius:6px;width:100%;box-sizing:border-box;outline:none;}
@@ -200,14 +199,7 @@ body.two-up .heli{columns:2;}
 .wp-code{font-family:'Oxanium',sans-serif;font-weight:700;color:#7dd3fc;min-width:52px;font-size:11px;flex-shrink:0;}
 .wp-name{color:var(--white);font-size:11px;}
 .wp-no-results{color:var(--muted);font-size:12px;padding:8px;}
-.ga-grid{columns:2;column-gap:14px;}.ga-card{break-inside:avoid;display:inline-block;width:100%;margin-bottom:14px;}
-.ga-card{background:var(--card);border:1px solid var(--border);border-left:3px solid #ffd700;border-radius:5px;padding:16px 18px;}
-.ga-rwy{font-family:'Oxanium',sans-serif;font-weight:800;font-size:18px;color:#ff3131;letter-spacing:1px;margin-bottom:12px;cursor:pointer;user-select:none;}.ga-rwy.ysws{color:#39ff14;}
-.ga-steps{display:none;flex-direction:column;gap:8px;}.ga-card.ga-open .ga-steps{display:flex;}
 .ma-card{cursor:pointer;user-select:none;}.ma-card .card-hdr{pointer-events:none;}
-.ga-step{display:flex;gap:10px;font-size:12px;}
-.ga-key{font-family:'Oxanium',sans-serif;font-weight:700;color:var(--muted);min-width:70px;flex-shrink:0;text-transform:uppercase;font-size:10px;padding-top:1px;}
-.ga-val{color:#eaf2fa;line-height:1.4;}
 
 .heli-sec-b.flush{padding:0;}
 .hr-strip{display:flex;gap:16px;flex-wrap:wrap;padding:8px 14px;background:rgba(245,166,35,.06);border-bottom:1px solid var(--border);}
@@ -342,6 +334,21 @@ body.two-up .heli{columns:2;}
 .heli-sec.vfr.open .heli-btn{color:#00cec9;border-color:#00cec9;}
 .hr-code{font-family:'Oxanium',sans-serif;font-weight:700;font-size:10px;letter-spacing:1px;color:#00cec9;margin-right:6px;}
 .hr-dirn{font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.5px;color:var(--muted);margin-left:8px;}
+
+.miss-wrap{max-width:980px;margin:0 auto;padding:8px 0 80px;}
+.miss-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
+body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
+.miss-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--yssy);border-radius:5px;padding:13px 15px;}
+.miss-card.ws{border-left-color:var(--ysws);}
+.miss-hdr{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;}
+.miss-rwy{font-family:'Oxanium',sans-serif;font-weight:800;font-size:17px;letter-spacing:1px;color:var(--yssy);}
+.miss-card.ws .miss-rwy{color:var(--ysws);}
+.miss-ap{font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.5px;color:var(--muted);margin-left:auto;}
+.miss-steps{display:flex;flex-direction:column;gap:7px;}
+.miss-step{display:flex;gap:10px;font-size:12px;}
+.miss-key{font-family:'Oxanium',sans-serif;font-weight:700;color:var(--muted);min-width:62px;flex-shrink:0;text-transform:uppercase;font-size:9.5px;padding-top:2px;}
+.miss-val{color:#eaf2fa;line-height:1.45;}
+.miss-dim{color:var(--muted);}
 </style>
 </head>
 <body>
@@ -359,7 +366,7 @@ body.two-up .heli{columns:2;}
   <button class="tab" onclick="showAP('wp',this)">WP'S</button>
   <button class="tab" onclick="showAP('ac',this)">A/C</button>
   <button class="tab" onclick="showAP('heli',this)">HELI</button>
-  <button class="tab" onclick="showAP('ga',this)">G/A</button>
+  <button class="tab" onclick="showAP('ga',this)">MA</button>
   <button class="tab" onclick="showAP('iva',this)">IVA</button>
   <button class="tab" onclick="showAP('map',this)">MAP</button>
 </div>
@@ -1620,78 +1627,64 @@ body.two-up .heli{columns:2;}
 
 
 <div id="ap-ga" class="airport">
-  <div class="ga-wrap">
-    <div class="ga-grid">
-
-      <div class="ga-card">
-        <div class="ga-rwy">RWY 07</div>
-        <div class="ga-steps">
-          <div class="ga-step"><span class="ga-key">Track</span><span class="ga-val">062° (Runway HDG)</span></div>
-          <div class="ga-step"><span class="ga-key">Climb</span><span class="ga-val">3000ft or as directed by ATC</span></div>
+  <div class="miss-wrap">
+    <div class="miss-grid">
+      <div class="miss-card">
+        <div class="miss-hdr"><span class="miss-rwy">RWY 07</span><span class="miss-ap">YSSY</span></div>
+        <div class="miss-steps">
+          <div class="miss-step"><span class="miss-key">HDG</span><span class="miss-val">062&deg;</span></div>
+          <div class="miss-step"><span class="miss-key">CLIMB</span><span class="miss-val">3000</span></div>
         </div>
       </div>
-
-      <div class="ga-card">
-        <div class="ga-rwy">RWY 16L</div>
-        <div class="ga-steps">
-          <div class="ga-step"><span class="ga-key">Track</span><span class="ga-val">155° (Runway HDG)</span></div>
-          <div class="ga-step"><span class="ga-key">At 600ft</span><span class="ga-val">Turn left, track 125°</span></div>
-          <div class="ga-step"><span class="ga-key">Climb</span><span class="ga-val">3000ft or as directed by ATC</span></div>
+      <div class="miss-card">
+        <div class="miss-hdr"><span class="miss-rwy">RWY 16L</span><span class="miss-ap">YSSY</span></div>
+        <div class="miss-steps">
+          <div class="miss-step"><span class="miss-key">HDG</span><span class="miss-val">125&deg;</span></div>
+          <div class="miss-step"><span class="miss-key">CLIMB</span><span class="miss-val">3000</span></div>
         </div>
       </div>
-
-      <div class="ga-card">
-        <div class="ga-rwy">RWY 16R</div>
-        <div class="ga-steps">
-          <div class="ga-step"><span class="ga-key">Track</span><span class="ga-val">155° (Runway HDG)</span></div>
-          <div class="ga-step"><span class="ga-key">At 600ft</span><span class="ga-val">Turn right, track 170°</span></div>
-          <div class="ga-step"><span class="ga-key">Climb</span><span class="ga-val">3000ft or as directed by ATC</span></div>
+      <div class="miss-card">
+        <div class="miss-hdr"><span class="miss-rwy">RWY 16R</span><span class="miss-ap">YSSY</span></div>
+        <div class="miss-steps">
+          <div class="miss-step"><span class="miss-key">HDG</span><span class="miss-val">170&deg;</span></div>
+          <div class="miss-step"><span class="miss-key">CLIMB</span><span class="miss-val">3000</span></div>
         </div>
       </div>
-
-      <div class="ga-card">
-        <div class="ga-rwy">RWY 25</div>
-        <div class="ga-steps">
-          <div class="ga-step"><span class="ga-key">Track</span><span class="ga-val">242° (Runway HDG)</span></div>
-          <div class="ga-step"><span class="ga-key">Climb</span><span class="ga-val">3000ft or as directed by ATC</span></div>
+      <div class="miss-card">
+        <div class="miss-hdr"><span class="miss-rwy">RWY 25</span><span class="miss-ap">YSSY</span></div>
+        <div class="miss-steps">
+          <div class="miss-step"><span class="miss-key">HDG</span><span class="miss-val">242&deg;</span></div>
+          <div class="miss-step"><span class="miss-key">CLIMB</span><span class="miss-val">3000</span></div>
         </div>
       </div>
-
-      <div class="ga-card">
-        <div class="ga-rwy">RWY 34L</div>
-        <div class="ga-steps">
-          <div class="ga-step"><span class="ga-key">Track</span><span class="ga-val">335° (Runway HDG)</span></div>
-          <div class="ga-step"><span class="ga-key">At 500ft</span><span class="ga-val">Turn left, track 320°</span></div>
-          <div class="ga-step"><span class="ga-key">Climb</span><span class="ga-val">3000ft or as directed by ATC</span></div>
+      <div class="miss-card">
+        <div class="miss-hdr"><span class="miss-rwy">RWY 34L</span><span class="miss-ap">YSSY</span></div>
+        <div class="miss-steps">
+          <div class="miss-step"><span class="miss-key">HDG</span><span class="miss-val">320&deg;</span></div>
+          <div class="miss-step"><span class="miss-key">CLIMB</span><span class="miss-val">3000</span></div>
         </div>
       </div>
-
-      <div class="ga-card">
-        <div class="ga-rwy">RWY 34R</div>
-        <div class="ga-steps">
-          <div class="ga-step"><span class="ga-key">Track</span><span class="ga-val">335° (Runway HDG)</span></div>
-          <div class="ga-step"><span class="ga-key">Turn right</span><span class="ga-val">Track direct SSYSH, then track 060°</span></div>
-          <div class="ga-step"><span class="ga-key">Climb</span><span class="ga-val">4000ft or as directed by ATC</span></div>
+      <div class="miss-card">
+        <div class="miss-hdr"><span class="miss-rwy">RWY 34R</span><span class="miss-ap">YSSY</span></div>
+        <div class="miss-steps">
+          <div class="miss-step"><span class="miss-key">HDG</span><span class="miss-val">060&deg;<span class="miss-dim"> via SSYSH</span></span></div>
+          <div class="miss-step"><span class="miss-key">CLIMB</span><span class="miss-val">4000</span></div>
         </div>
       </div>
-
-
-      <div class="ga-card">
-        <div class="ga-rwy ysws">(YSWS) RWY 05</div>
-        <div class="ga-steps">
-          <div class="ga-step"><span class="ga-key">Track</span><span class="ga-val">047° (RWY HDG)</span></div>
-          <div class="ga-step"><span class="ga-key">Climb</span><span class="ga-val">3000 FT</span></div>
+      <div class="miss-card ws">
+        <div class="miss-hdr"><span class="miss-rwy">RWY 05</span><span class="miss-ap">YSWS</span></div>
+        <div class="miss-steps">
+          <div class="miss-step"><span class="miss-key">HDG</span><span class="miss-val">047&deg;</span></div>
+          <div class="miss-step"><span class="miss-key">CLIMB</span><span class="miss-val">3000</span></div>
         </div>
       </div>
-
-      <div class="ga-card">
-        <div class="ga-rwy ysws">(YSWS) RWY 23</div>
-        <div class="ga-steps">
-          <div class="ga-step"><span class="ga-key">Track</span><span class="ga-val">NB2EZ, NB2ET, PIBIX</span></div>
-          <div class="ga-step"><span class="ga-key">Climb</span><span class="ga-val">3000 FT</span></div>
+      <div class="miss-card ws">
+        <div class="miss-hdr"><span class="miss-rwy">RWY 23</span><span class="miss-ap">YSWS</span></div>
+        <div class="miss-steps">
+          <div class="miss-step"><span class="miss-key">HDG</span><span class="miss-val">NB2EZ, NB2ET, PIBIX</span></div>
+          <div class="miss-step"><span class="miss-key">CLIMB</span><span class="miss-val">3000</span></div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
@@ -2441,7 +2434,6 @@ function toggleHeli(el){var sec=el.parentElement,btn=el.querySelector('.heli-btn
 })();
 
 
-document.querySelectorAll('.ga-rwy').forEach(h=>{h.addEventListener('click',()=>{h.closest('.ga-card').classList.toggle('ga-open');});});
 document.querySelectorAll('.ma-card').forEach(c=>{c.addEventListener('click',()=>{c.classList.toggle('alt-open');});});
 
 var WP_IFR=[
