@@ -349,6 +349,23 @@ body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
 .miss-key{font-family:'Oxanium',sans-serif;font-weight:700;color:var(--muted);min-width:62px;flex-shrink:0;text-transform:uppercase;font-size:9.5px;padding-top:2px;}
 .miss-val{color:#eaf2fa;line-height:1.45;}
 .miss-dim{color:var(--muted);}
+
+.sidkey{background:#fff;color:#111;border:1px solid #b8b8b8;border-radius:4px;padding:12px 15px;margin-bottom:14px;}
+.sidkey-h{font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#666;margin-bottom:9px;padding-bottom:8px;border-bottom:1px solid #ddd;}
+.sidkey-g{display:grid;grid-template-columns:auto auto 1fr auto;gap:0 12px;align-items:baseline;}
+.sidkey-g>span{padding:7px 0;border-top:1px solid #e2e2e2;}
+.sidkey-g>span:nth-child(-n+4){border-top:none;}
+.sidkey-l{font-family:'Oxanium',sans-serif;font-weight:800;font-size:14px;color:#000;text-align:center;min-width:20px;}
+.sidkey-n{font-family:'Oxanium',sans-serif;font-weight:700;font-size:11px;letter-spacing:.5px;color:#000;white-space:nowrap;}
+.sidkey-d{font-size:11px;line-height:1.5;color:#222;}
+.sidkey-d b{color:#000;font-weight:700;}
+.sidkey-t{font-size:11px;color:#000;white-space:nowrap;text-align:right;}
+.sidkey-tn{display:block;font-size:9.5px;color:#666;}
+@media(max-width:620px){
+  .sidkey-g{grid-template-columns:auto 1fr;}
+  .sidkey-d,.sidkey-t{grid-column:2;text-align:left;}
+  .sidkey-g>span{border-top:none;}
+}
 </style>
 </head>
 <body>
@@ -566,6 +583,15 @@ body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
     <div class="grid" id="g-yssy-star"></div>
   </div>
   <div id="ap-ysws" class="airport">
+    <div class="sidkey">
+      <div class="sidkey-h">SID Suffix</div>
+      <div class="sidkey-g">
+        <span class="sidkey-l">D</span><span class="sidkey-n">Day</span><span class="sidkey-d">Default SID, day mode</span><span class="sidkey-t">0530-2300<span class="sidkey-tn">outside YSSY curfew</span></span>
+        <span class="sidkey-l">H</span><span class="sidkey-n">Hot / Heavy</span><span class="sidkey-d">Via NWA or LEECE on pilot request when unable to make TONTO Day levels, or by ATC when YSWS is 35&deg;C or above</span><span class="sidkey-t"></span>
+        <span class="sidkey-l">N</span><span class="sidkey-n">Night</span><span class="sidkey-d">Night mode, RRO <b>not</b> in use</span><span class="sidkey-t">2300-0530</span>
+        <span class="sidkey-l">Q</span><span class="sidkey-n">RRO</span><span class="sidkey-d">Night mode, RRO <b>in</b> use</span><span class="sidkey-t">2300-0530</span>
+      </div>
+    </div>
     <div class="grid grid-across" id="g-ysws-sid">
 <div class="card sid" data-type="sid" data-rwy="ALL" data-class="both" data-ap="ysws">
   <div class="card-hdr">
