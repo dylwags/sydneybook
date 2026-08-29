@@ -367,12 +367,6 @@ body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
   .sidkey-g>span{border-top:none;}
 }
 
-/* --- SID suffix legend collapses ------------------------------------------- */
-.sidkey-h{cursor:pointer;user-select:none;-webkit-user-select:none;display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.sidkey-h:hover{color:#111;}
-.sidkey.collapsed .sidkey-g{display:none;}
-.sidkey.collapsed .sidkey-h{margin-bottom:0;padding-bottom:0;border-bottom:none;}
-
 /* --- chart viewers (MAP tab, YSBK map) ------------------------------------- */
 /* Default stage is white, for charts embedded as printed (Bankstown). The eight TMA
    charts are lightness-inverted at build time instead, so .tma-stage goes black under
@@ -404,13 +398,26 @@ body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
 .collapsed .tgl-x{transform:rotate(-45deg) translate(-1px,1px);}
 
 /* YSBK map, sitting above the VFR Routes list it explains. Starts collapsed. */
-.bkmap-wrap{max-width:min(1400px,calc((100vh - 210px) * 1.389));margin:0 auto 18px;}
-.bkmap-h{font-family:'Oxanium',sans-serif;font-weight:700;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#00cec9;padding:0 0 8px;cursor:pointer;user-select:none;-webkit-user-select:none;display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.bkmap-h:hover{color:var(--white);}
+.bkmap-wrap{max-width:min(1400px,calc((100vh - 210px) * 1.389));margin:0 0 18px;}
+/* Same white panel as the two YSWS collapsibles (.sidkey and .qn-head, styled in
+   _build_sidkey_collapse.py - keep the border and radius in step). Only as wide as its
+   own label: these are buttons, not full-width banners. */
+.bkmap-h{font-family:'Oxanium',sans-serif;font-weight:700;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;background:#fff;border:1px solid #b8b8b8;border-radius:4px;color:#111;padding:11px 16px;margin-bottom:8px;cursor:pointer;user-select:none;-webkit-user-select:none;display:inline-flex;align-items:center;gap:10px;width:fit-content;max-width:100%;}
+.bkmap-h:hover{background:#f2f2f2;}
 .bkmap-stage{aspect-ratio:2488/1791;}
 .bkmap-wrap.collapsed{margin-bottom:14px;}
-.bkmap-wrap.collapsed .bkmap-h{padding-bottom:0;}
 .bkmap-wrap.collapsed .bkmap-stage{display:none;}
+
+/* YSBK VFR routes. They were CSS multi-column, which fills down column one and then
+   down column two, so the seven routes read nothing like the plate grid above them; and
+   the 980px centred .heli wrap left them floating under a full-width section head. Same
+   grid as the plates now, filling left to right, honouring the 2-up toggle.
+   NOT the masonry .grid: that packs with grid-auto-rows:8px plus a per-item gridRowEnd
+   span set by JS keyed on `.card`, and these sections are not cards. Plain rows, which
+   is all they need - every section is the same height until you open one. */
+#ap-sbk .heli.vfr-wrap{max-width:none;margin:0;padding:8px 0 40px;columns:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));column-gap:14px;row-gap:14px;align-items:start;}
+#ap-sbk .heli.vfr-wrap .heli-sec{display:block;margin-bottom:0;}
+body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
 
 /* 620px is the site's phone breakpoint, the one .tab and .flt already use. Eight
    configs will not sit in one 375px row, so they go two rows of four. */
@@ -423,6 +430,21 @@ body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
   .bkmap-wrap{max-width:100%;}
 }
 /* --- end chart viewers --- */
+
+/* --- YSWS chrome: SID suffix legend + Q/N group ---------------------------- */
+.sidkey-h{cursor:pointer;user-select:none;-webkit-user-select:none;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.sidkey-h:hover{color:#111;}
+.sidkey.collapsed .sidkey-g{display:none;}
+.sidkey.collapsed .sidkey-h{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+/* Both of these are only as wide as their own label - buttons, not full-width banners.
+   The legend goes back to full width the moment it opens, because the four-column table
+   inside it needs the room. The Q/N head has no open state, so it stays label-width.
+   (.bkmap-h on YSBK carries the same panel; keep the border and radius in step.) */
+.sidkey.collapsed{width:fit-content;max-width:100%;}
+.qn-head{background:#fff;border:1px solid #b8b8b8;border-radius:4px;color:#111;width:fit-content;max-width:100%;}
+.qn-head::before{background:#666;box-shadow:none;}
+.qn-head::after{color:#666;}
+/* --- end YSWS chrome --- */
 </style>
 </head>
 <body>
@@ -651,7 +673,7 @@ body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
   </div>
   <div id="ap-ysws" class="airport">
     <div class="sidkey collapsed">
-      <div class="sidkey-h" onclick="this.parentNode.classList.toggle('collapsed')">SID Suffix - Click Me<i class="tgl-x"></i></div>
+      <div class="sidkey-h" onclick="this.parentNode.classList.toggle('collapsed')">SID Suffix<i class="tgl-x"></i></div>
       <div class="sidkey-g">
         <span class="sidkey-l">D</span><span class="sidkey-n">Day</span><span class="sidkey-d">Default SID, day mode</span><span class="sidkey-t">0530-2300<span class="sidkey-tn">outside YSSY curfew</span></span>
         <span class="sidkey-l">H</span><span class="sidkey-n">Hot / Heavy</span><span class="sidkey-d">Via NWA or LEECE on pilot request when unable to make TONTO Day levels, or by ATC when YSWS is 35&deg;C or above</span><span class="sidkey-t"></span>
@@ -3656,8 +3678,9 @@ var BK_MAP={"t":"Bankstown Coded Routes Inbound/Outbound","s":"data:image/webp;b
   if(!tma) return;
   var cur=-1;
 
-  // decode the other charts up front so switching config does not flash
-  TMA_MAPS.forEach(function(m){ var p=new Image(); p.src=m.s; });
+  // Charts are decoded on demand, NOT preloaded. Eagerly warming all eight held about
+  // 136MB of decoded bitmap resident on top of the 71 plate images already in the DOM,
+  // which is a lot to ask of a phone for the sake of hiding a one-off decode on tap.
 
   // tapping the config you are already on re-centres it
   window.tmaShow=function(i,btn){
