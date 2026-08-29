@@ -367,6 +367,8 @@ body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
   .sidkey-g>span{border-top:none;}
 }
 
+
+
 /* --- chart viewers (MAP tab, YSBK map) ------------------------------------- */
 /* Default stage is white, for charts embedded as printed (Bankstown). The eight TMA
    charts are lightness-inverted at build time instead, so .tma-stage goes black under
@@ -445,6 +447,30 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
 .qn-head::before{background:#666;box-shadow:none;}
 .qn-head::after{color:#666;}
 /* --- end YSWS chrome --- */
+
+
+/* --- FDR abbreviation tables ----------------------------------------------- */
+/* Same panel as .sidkey / .qn-head / .bkmap-h - keep the border and radius in step.
+   Label-width until opened, then as wide as the table needs. */
+.abbr-pan{background:#fff;color:#111;border:1px solid #b8b8b8;border-radius:4px;padding:12px 15px;margin:0 0 12px;}
+.abbr-pan.collapsed{width:fit-content;max-width:100%;}
+.abbr-h{font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#666;margin-bottom:9px;padding-bottom:8px;border-bottom:1px solid #ddd;cursor:pointer;user-select:none;-webkit-user-select:none;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.abbr-h:hover{color:#111;}
+.abbr-pan.collapsed .abbr-h{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.abbr-pan.collapsed .abbr-b{display:none;}
+.abbr-g{display:grid;grid-template-columns:auto 1fr;gap:0 14px;align-items:baseline;}
+.abbr-g>span{padding:7px 0;border-top:1px solid #e2e2e2;}
+.abbr-g>span:nth-child(-n+2){border-top:none;}
+.abbr-k{font-family:'Oxanium',sans-serif;font-weight:800;font-size:13px;color:#000;white-space:nowrap;}
+.abbr-d{font-size:11px;line-height:1.5;color:#222;}
+.abbr-src{font-size:9px;line-height:1.4;color:#777;margin-top:10px;padding-top:8px;border-top:1px solid #e2e2e2;}
+@media(max-width:620px){
+  .abbr-g{grid-template-columns:1fr;}
+  .abbr-g>span{border-top:none;padding:2px 0;}
+  .abbr-g>.abbr-k{padding-top:9px;}
+  .abbr-g>.abbr-d{padding-bottom:9px;border-bottom:1px solid #e2e2e2;}
+}
+/* --- end FDR abbreviation tables --- */
 </style>
 </head>
 <body>
@@ -1409,6 +1435,24 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
   </div>
 
   <div id="ap-sbk" class="airport suburb-tab">
+    <div class="abbr-pan collapsed">
+      <div class="abbr-h" onclick="this.parentNode.classList.toggle('collapsed')">FDR Abbreviations<i class="tgl-x"></i></div>
+      <div class="abbr-b">
+        <div class="abbr-g">
+          <span class="abbr-k">RN</span><span class="abbr-d">RNP N</span>
+          <span class="abbr-k">RY</span><span class="abbr-d">RNP Y RWY 11C</span>
+          <span class="abbr-k">RZ</span><span class="abbr-d">RNP Z RWY 11C</span>
+          <span class="abbr-k">OK</span><span class="abbr-d">Request for navaid training at YSRI approved.</span>
+          <span class="abbr-k">C [nn]</span><span class="abbr-d">VFR EST via CRSC</span>
+          <span class="abbr-k">P [nn]</span><span class="abbr-d">VFR EST via PSP</span>
+          <span class="abbr-k">N [nn]</span><span class="abbr-d">IFR EST from the north</span>
+          <span class="abbr-k">S [nn]</span><span class="abbr-d">IFR EST from the south</span>
+          <span class="abbr-k">[nn]</span><span class="abbr-d">(Two figure time following abbreviation for type of approach) = EAT at IF.</span>
+          <span class="abbr-k">V</span><span class="abbr-d">Visual</span>
+        </div>
+        <div class="abbr-src">SYTCU Local Instructions ATS-PROC-0049 v110, s1.1.1</div>
+      </div>
+    </div>
     <div class="sec-head sh-ysbk">YSBK &nbsp;·&nbsp; SID</div>
     <div class="grid">
       <div class="card sid" data-type="sid" data-rwy="11C 29C" data-class="both" data-ap="sbk">
@@ -1616,6 +1660,26 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
   </div>
   </div>
   <div id="ap-sri" class="airport suburb-tab">
+    <div class="abbr-pan collapsed">
+      <div class="abbr-h" onclick="this.parentNode.classList.toggle('collapsed')">FDR Abbreviations<i class="tgl-x"></i></div>
+      <div class="abbr-b">
+        <div class="abbr-g">
+          <span class="abbr-k">LX/LY/LZ</span><span class="abbr-d">ILS or LOC X/Y/Z RWY 28</span>
+          <span class="abbr-k">T10</span><span class="abbr-d">TACAN RWY 10</span>
+          <span class="abbr-k">T28</span><span class="abbr-d">TACAN RWY 28</span>
+          <span class="abbr-k">NA</span><span class="abbr-d">NDB-A or NDB/DME-A</span>
+          <span class="abbr-k">R10</span><span class="abbr-d">RNP RWY 10</span>
+          <span class="abbr-k">R28</span><span class="abbr-d">RNP RWY 28</span>
+          <span class="abbr-k">F</span><span class="abbr-d">Richmond Tower has concurred a clearance for the approach/clearance to drop parachutes.</span>
+          <span class="abbr-k">M [nn]</span><span class="abbr-d">Altitude restriction issued by Richmond Tower.</span>
+          <span class="abbr-k">*</span><span class="abbr-d">Overshoot instructions have been issued to a PILS aircraft &mdash; check LOCAL_OPS field for details.</span>
+          <span class="abbr-k">V</span><span class="abbr-d">Visual</span>
+          <span class="abbr-k">TG</span><span class="abbr-d">Touch and go</span>
+          <span class="abbr-k">.</span><span class="abbr-d">Full stop landing</span>
+        </div>
+        <div class="abbr-src">SYTCU Local Instructions ATS-PROC-0049 v110, s1.1.1</div>
+      </div>
+    </div>
     <div class="sec-head sh-ysri">YSRI &nbsp;·&nbsp; SID</div>
     <div class="grid">
       <div class="card sid" data-type="sid" data-rwy="10 28" data-class="both" data-ap="sri">
