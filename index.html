@@ -369,6 +369,10 @@ body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
 
 
 
+
+
+
+
 /* --- chart viewers (MAP tab, YSBK map) ------------------------------------- */
 /* Default stage is white, for charts embedded as printed (Bankstown). The eight TMA
    charts are lightness-inverted at build time instead, so .tma-stage goes black under
@@ -381,17 +385,24 @@ body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
 .chartv-bar button{font-family:'Oxanium',sans-serif;font-weight:700;font-size:9px;letter-spacing:1.5px;padding:2px 8px;border:1px solid var(--border2);background:none;color:var(--muted);cursor:pointer;}
 .chartv-bar button:hover{color:var(--white);border-color:var(--muted);}
 
-/* MAP tab config bar. min-height is explicit so CURFEW and SODPROPS, which have no
+/* AIRSPACE tab accent. Indigo because the palette had no room left near it - MAP keeps
+   its pink, and the config buttons below take the same indigo so tab and bar agree. */
+.tab.aair{color:#818cf8;border-bottom-color:#818cf8;}
+
+/* The vh term keeps the whole chart on screen without scrolling on a tall window; the
+   max(320px,...) floor stops it collapsing to nothing on a short one, where the term
+   goes negative. */
+/* AIRSPACE config bar. min-height is explicit so CURFEW and SODPROPS, which have no
    mode line, are exactly as tall as the six that do, and flex-start keeps every big
    label on the same baseline instead of centring the short ones. */
 .tma-bar{gap:6px;}
 .tma-mode{font-family:'Oxanium',sans-serif;display:inline-flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;flex:0 0 auto;min-width:76px;min-height:44px;padding:7px 12px;border:1px solid var(--border2);background:none;color:#ececec;cursor:pointer;border-radius:2px;transition:background .15s,border-color .15s,color .15s;}
 .tma-mode b{font-size:15px;font-weight:800;letter-spacing:.5px;line-height:1.15;}
 .tma-mode i{font-style:normal;font-size:8px;font-weight:600;letter-spacing:1.5px;line-height:1;color:var(--muted);}
-.tma-mode:hover{border-color:#f472b6;color:var(--white);}
-.tma-mode.on{background:#f472b6;border-color:#f472b6;color:#1a0710;}
-.tma-mode.on i{color:rgba(26,7,16,.72);}
-.tma-wrap{max-width:min(1400px,calc((100vh - 230px) * 1.431));margin:0 auto;padding:10px 0 60px;}
+.tma-mode:hover{border-color:#818cf8;color:var(--white);}
+.tma-mode.on{background:#818cf8;border-color:#818cf8;color:#0c1030;}
+.tma-mode.on i{color:rgba(12,16,48,.72);}
+.tma-wrap{max-width:min(1400px,max(320px,calc((100vh - 230px) * 1.431)));margin:0 auto;padding:10px 0 60px;}
 .tma-stage{aspect-ratio:2525/1765;background:#000;}
 
 /* Shared collapse chevron. currentColor so it works on the cyan YSBK head and on the
@@ -400,7 +411,7 @@ body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
 .collapsed .tgl-x{transform:rotate(-45deg) translate(-1px,1px);}
 
 /* YSBK map, sitting above the VFR Routes list it explains. Starts collapsed. */
-.bkmap-wrap{max-width:min(1400px,calc((100vh - 210px) * 1.389));margin:0 0 18px;}
+.bkmap-wrap{max-width:min(1400px,max(320px,calc((100vh - 210px) * 1.389)));margin:0 0 18px;}
 /* Same white panel as the two YSWS collapsibles (.sidkey and .qn-head, styled in
    _build_sidkey_collapse.py - keep the border and radius in step). Only as wide as its
    own label: these are buttons, not full-width banners. */
@@ -448,7 +459,6 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
 .qn-head::after{color:#666;}
 /* --- end YSWS chrome --- */
 
-
 /* --- FDR abbreviation tables ----------------------------------------------- */
 /* Same panel as .sidkey / .qn-head / .bkmap-h - keep the border and radius in step.
    Label-width until opened, then as wide as the table needs. */
@@ -485,12 +495,13 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
   <button class="tab" onclick="showAP('ysws',this)">YSWS<span class="tab-count">33</span></button>
   <button class="tab" onclick="showAP('sbk',this)">YSBK<span class="tab-count">7</span></button>
   <button class="tab" onclick="showAP('sri',this)">YSRI<span class="tab-count">15</span></button>
+  <button class="tab" onclick="showAP('air',this)">AIRSPACE</button>
   <button class="tab" onclick="showAP('wp',this)">WP'S</button>
+  <button class="tab" onclick="showAP('map',this)">MAP</button>
   <button class="tab" onclick="showAP('ac',this)">A/C</button>
   <button class="tab" onclick="showAP('heli',this)">HELI</button>
   <button class="tab" onclick="showAP('ga',this)">MA</button>
   <button class="tab" onclick="showAP('iva',this)">IVA</button>
-  <button class="tab" onclick="showAP('map',this)">MAP</button>
 </div>
 <div class="toolbar" id="tb-yssy">
   <button class="flt on" onclick="flt('yssy','all',this)">ALL</button>
@@ -537,7 +548,7 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
   <div class="sep-flt"></div>
   <button class="flt wide-toggle" onclick="toggleWide(this)">2-UP</button>
 </div>
-<div class="toolbar tma-bar" id="tb-map" style="display:none">
+<div class="toolbar tma-bar" id="tb-air" style="display:none">
   <button class="tma-mode on" type="button" onclick="tmaShow(0,this)"><b>16</b><i>MODE 10</i></button>
   <button class="tma-mode" type="button" onclick="tmaShow(1,this)"><b>16/07</b><i>MODE 14A</i></button>
   <button class="tma-mode" type="button" onclick="tmaShow(2,this)"><b>16/25</b><i>MODE 5</i></button>
@@ -1916,6 +1927,27 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
   </div>
 </div>
 <div id="ap-map" class="airport">
+  <div class="map-wrap">
+    <div class="map-canvas">
+      <svg id="map-svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="map-zoombar"><span id="map-zoom">1.0x</span><button type="button" id="map-reset">RESET</button></div>
+    </div>
+    <div class="map-side">
+      <div class="map-find">
+        <input type="text" id="map-search" class="wp-search" placeholder="Plot a waypoint...">
+        <div id="map-hits" class="map-hits"></div>
+      </div>
+      <div class="map-legend-h">PLOTTED<button class="map-all" type="button" id="map-clear">CLEAR</button></div>
+      <div class="map-plotted" id="map-plotted"></div>
+      <div class="map-key"><span><i style="background:#00e5ff"></i>IFR</span><span><i style="background:#ffc400"></i>VFR</span><span><i class="sq" style="background:#4ade80"></i>AD</span><span><i class="cr" style="background:#f0f6ff"></i>HOSP</span></div>
+      <div class="map-legend-h">HELI ROUTES<button class="map-all" type="button" id="heli-all">ALL</button></div>
+      <div class="heli-grid" id="heli-grid"></div>
+      <div class="map-legend-h">CTA STEPS<button class="map-all" type="button" id="map-all">ALL</button></div>
+      <div class="map-legend" id="map-legend"></div>
+    </div>
+  </div>
+</div>
+<div id="ap-air" class="airport">
   <div class="tma-wrap">
     <div class="chartv tma-stage" id="tma-stage">
       <img id="tma-img" alt="">
@@ -1923,6 +1955,7 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
     </div>
   </div>
 </div>
+
 <div id="lb" class="lightbox" onclick="this.classList.remove('open')">
   <img id="lb-img" src="">
 </div>
@@ -1931,7 +1964,7 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
 function showAP(id,btn){
   document.querySelectorAll('.airport').forEach(a=>a.classList.remove('show'));
   document.getElementById('ap-'+id).classList.add('show');
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ay','aw','ai','abk','ari','ah','ag','awp','aac','amap'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ay','aw','ai','abk','ari','ah','ag','awp','aac','amap','aair'));
   if(id==='yssy') btn.classList.add('ay');
   else if(id==='ysws') btn.classList.add('aw');
   else if(id==='iva') btn.classList.add('ai');
@@ -1942,6 +1975,7 @@ function showAP(id,btn){
   else if(id==='wp') btn.classList.add('awp');
   else if(id==='ac') btn.classList.add('aac');
   else if(id==='map') btn.classList.add('amap');
+  else if(id==='air') btn.classList.add('aair');
   document.querySelectorAll('.toolbar').forEach(function(tb){ tb.style.display='none'; });
   var atb=document.getElementById('tb-'+id);
   if(atb) atb.style.display='flex';
@@ -3750,7 +3784,7 @@ var BK_MAP={"t":"Bankstown Coded Routes Inbound/Outbound","s":"data:image/webp;b
   window.tmaShow=function(i,btn){
     if(cur!==i){ cur=i; tma.img.src=TMA_MAPS[i].s; tma.img.alt=TMA_MAPS[i].t+' sectorisation'; }
     tma.reset();
-    var bar=document.getElementById('tb-map');
+    var bar=document.getElementById('tb-air');
     if(!bar) return;
     var bs=bar.querySelectorAll('.tma-mode');
     for(var k=0;k<bs.length;k++) bs[k].classList.remove('on');
