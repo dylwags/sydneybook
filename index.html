@@ -391,6 +391,7 @@ body.two-up .miss-grid{grid-template-columns:repeat(2,1fr);}
 /* AIRSPACE tab accent. Indigo because the palette had no room left near it - MAP keeps
    its pink, and the config buttons below take the same indigo so tab and bar agree. */
 .tab.aair{color:#818cf8;border-bottom-color:#818cf8;}
+.tab.acalc{color:#a3e635;border-bottom-color:#a3e635;}
 
 /* The vh term keeps the whole chart on screen without scrolling on a tall window; the
    max(320px,...) floor stops it collapsing to nothing on a short one, where the term
@@ -485,6 +486,38 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
   .abbr-g>.abbr-d{padding-bottom:9px;border-bottom:1px solid #e2e2e2;}
 }
 /* --- end FDR abbreviation tables --- */
+/* --- CALC tab: unit converter --- */
+.cv-wrap{padding:18px 20px 60px;max-width:1080px;}
+/* scroll-margin clears the sticky .hdr (50px) when a pick scrolls the boxes back into view */
+.cv-stage{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:10px;background:var(--card);border:1px solid var(--border2);border-radius:10px;padding:14px;scroll-margin-top:62px;}
+.cv-side{min-width:0;}
+.cv-unit{font-family:'Oxanium',sans-serif;font-weight:800;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#7dd3fc;}
+.cv-side.cv-b .cv-unit{color:#a3e635;}
+.cv-in{width:100%;box-sizing:border-box;font-family:'JetBrains Mono',monospace;font-weight:500;font-size:20px;font-variant-numeric:tabular-nums;color:var(--white);background:rgba(8,11,16,.55);border:1px solid var(--border2);border-radius:7px;padding:11px 12px;outline:none;}
+.cv-in::placeholder{color:#2c3a4a;}
+.cv-in:focus{border-color:#7dd3fc;}
+.cv-side.cv-b .cv-in:focus{border-color:#a3e635;}
+.cv-eq{font-family:'Oxanium',sans-serif;font-size:15px;color:var(--muted);padding-bottom:14px;}
+.cv-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:9px;padding:0 2px;}
+.cv-factor{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.4px;min-height:14px;}
+.cv-clear{font-family:'Oxanium',sans-serif;font-weight:700;font-size:10px;letter-spacing:2px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:5px;padding:7px 13px;cursor:pointer;flex:none;transition:color .15s,border-color .15s;}
+.cv-clear:hover{color:var(--white);border-color:var(--border2);}
+.cv-grp{font-family:'Oxanium',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;padding:22px 0 9px;}
+.cv-picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(166px,1fr));gap:7px;}
+.cv-pick{font-family:'Oxanium',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#c8d8e8;background:var(--card);border:1px solid var(--border);border-radius:7px;padding:12px 10px;cursor:pointer;text-align:center;transition:color .15s,border-color .15s,background .15s;}
+.cv-pick i{font-style:normal;color:var(--muted);margin:0 5px;transition:color .15s;}
+.cv-pick:hover{border-color:var(--border2);color:var(--white);}
+.cv-pick.on{color:#a3e635;border-color:#a3e635;background:rgba(163,230,53,.10);}
+.cv-pick.on i{color:#a3e635;}
+@media(max-width:560px){
+  .cv-wrap{padding:14px 14px 60px;}
+  .cv-stage{padding:12px;gap:8px;}
+  .cv-in{font-size:17px;padding:10px;}
+  .cv-eq{padding-bottom:12px;}
+  .cv-picks{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;}
+  .cv-pick{padding:11px 6px;font-size:10px;letter-spacing:.5px;}
+}
+/* --- end CALC tab --- */
 </style>
 </head>
 <body>
@@ -506,6 +539,7 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
   <button class="tab" onclick="showAP('heli',this)">HELI</button>
   <button class="tab" onclick="showAP('ga',this)">MA</button>
   <button class="tab" onclick="showAP('iva',this)">IVA</button>
+  <button class="tab" onclick="showAP('calc',this)">CALC</button>
 </div>
 <div class="toolbar" id="tb-yssy">
   <button class="flt on" onclick="flt('yssy','all',this)">ALL</button>
@@ -1961,6 +1995,142 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
   </div>
 </div>
 
+<!-- CALC tab start -->
+<div id="ap-calc" class="airport">
+  <div class="cv-wrap">
+    <div class="cv-stage">
+      <div class="cv-side cv-a">
+        <div class="cv-unit" id="cv-ua">FEET</div>
+        <input class="cv-in" id="cv-a" type="text" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="0">
+      </div>
+      <div class="cv-eq">&#8646;</div>
+      <div class="cv-side cv-b">
+        <div class="cv-unit" id="cv-ub">METRES</div>
+        <input class="cv-in" id="cv-b" type="text" inputmode="decimal" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="0">
+      </div>
+    </div>
+    <div class="cv-bar">
+      <div class="cv-factor" id="cv-factor"></div>
+      <button type="button" class="cv-clear" id="cv-clear">CLEAR</button>
+    </div>
+    <div id="cv-picks"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var CONV=[
+  {g:'DISTANCE',a:'NM',b:'KM',k:1.852},
+  {g:'DISTANCE',a:'NM',b:'ST MI',k:1.150779448},
+  {g:'DISTANCE',a:'FEET',b:'METRES',k:0.3048},
+  {g:'DISTANCE',a:'FL',b:'METRES',k:30.48},
+  {g:'DISTANCE',a:'FEET',b:'CM',k:30.48},
+  {g:'DISTANCE',a:'INCHES',b:'CM',k:2.54},
+  {g:'DISTANCE',a:'ST MI',b:'METRES',k:1609.344},
+  {g:'SPEED',a:'KNOTS',b:'MPH',k:1.150779448},
+  {g:'SPEED',a:'KNOTS',b:'KM/HR',k:1.852},
+  {g:'SPEED',a:'KNOTS',b:'FT/SEC',k:1.68781},
+  {g:'SPEED',a:'KM/HR',b:'FT/SEC',k:0.911344},
+  {g:'VERTICAL',a:'M/SEC',b:'FT/MIN',k:196.850394},
+  {g:'VERTICAL',a:'GRAD %',b:'FT/NM',k:60.761155},
+  {g:'WEIGHT',a:'KG',b:'POUNDS',k:2.204622622},
+  {g:'WEIGHT',a:'TONNES',b:'POUNDS',k:2204.622622},
+  {g:'PRESSURE',a:'IN HG',b:'HPA',k:33.86389},
+  {g:'TEMPERATURE',a:'°C',b:'°F',t:1},
+  {g:'FUEL',a:'US GAL',b:'LITRES',k:3.785412},
+  {g:'FUEL',a:'LITRES',b:'KG',k:0.8},
+  {g:'POWER',a:'HP',b:'KW',k:0.7457}
+];
+  var DEFAULT='FEET|METRES';
+  var a=document.getElementById('cv-a'), b=document.getElementById('cv-b');
+  var ua=document.getElementById('cv-ua'), ub=document.getElementById('cv-ub');
+  var fac=document.getElementById('cv-factor'), host=document.getElementById('cv-picks');
+  var stage=document.querySelector('#ap-calc .cv-stage');
+  var btns=[], cur=0;
+
+  // Decimals by magnitude, then trailing zeros stripped. Keeps 1000 ft -> 304.8
+  // rather than 304.80000000000007, without flattening 1 ft -> 0.3048 to 0.305.
+  function fmt(v){
+    if(v===null||!isFinite(v)) return '';
+    var m=Math.abs(v), d;
+    if(m===0) d=0;
+    else if(m>=1000) d=1;
+    else if(m>=100) d=2;
+    else if(m>=1) d=3;
+    else if(m>=0.01) d=5;
+    else d=8;
+    var s=v.toFixed(d);
+    if(s.indexOf('.')>-1) s=s.replace(/0+$/,'').replace(/\.$/,'');
+    return s;
+  }
+  function fmtk(v){
+    var s=v.toFixed(6);
+    if(s.indexOf('.')>-1) s=s.replace(/0+$/,'').replace(/\.$/,'');
+    return s;
+  }
+  function toB(c,v){ return c.t ? v*9/5+32 : v*c.k; }
+  function toA(c,v){ return c.t ? (v-32)*5/9 : v/c.k; }
+  // "KNOTS x 1.150779 = MPH", not "1 KNOTS = ...": the units are plural on the
+  // boxes, so the 1-of-them phrasing reads wrong, and this is the factor the
+  // console panel prints anyway.
+  function line(c){
+    if(c.t) return '\u00b0C \u00d7 9/5 + 32 = \u00b0F';
+    return c.a+' \u00d7 '+fmtk(c.k)+' = '+c.b;
+  }
+  // Number(), not parseFloat: "1.2.3" has to fail outright, not silently become 1.2.
+  function num(s){
+    s=s.replace(/,/g,'').trim();
+    if(s===''||s==='-'||s==='.'||s==='-.') return null;
+    var v=Number(s);
+    return isFinite(v)?v:null;
+  }
+  function calc(src){
+    var c=CONV[cur], from=(src==='a')?a:b, to=(src==='a')?b:a;
+    var v=num(from.value);
+    if(v===null){ to.value=''; return; }
+    to.value=fmt(src==='a'?toB(c,v):toA(c,v));
+  }
+  function pick(i,focus){
+    cur=i;
+    var c=CONV[i];
+    ua.textContent=c.a; ub.textContent=c.b; fac.textContent=line(c);
+    for(var j=0;j<btns.length;j++) btns[j].classList.toggle('on',j===i);
+    try{ localStorage.setItem('cvPick',c.a+'|'+c.b); }catch(e){}
+    if(num(a.value)!==null) calc('a'); else { a.value=''; b.value=''; }
+    // Picking from the bottom of a 20-row list on a phone leaves the boxes off
+    // the top of the screen, and focus() alone does not reliably bring them
+    // back. Scroll explicitly; 'nearest' is a no-op when they are already in view.
+    if(focus){
+      try{ a.focus({preventScroll:true}); }catch(e){ a.focus(); }
+      stage.scrollIntoView({block:'nearest'});
+    }
+  }
+
+  var html='', g=null;
+  for(var i=0;i<CONV.length;i++){
+    if(CONV[i].g!==g){ g=CONV[i].g; html+='<div class="cv-grp">'+g+'</div><div class="cv-picks">'; }
+    html+='<button type="button" class="cv-pick" data-i="'+i+'">'+CONV[i].a+'<i>&#8646;</i>'+CONV[i].b+'</button>';
+    if(i===CONV.length-1||CONV[i+1].g!==g) html+='</div>';
+  }
+  host.innerHTML=html;
+  btns=[].slice.call(host.querySelectorAll('.cv-pick'));
+  btns.forEach(function(el){
+    el.addEventListener('click',function(){ pick(+el.getAttribute('data-i'),true); });
+  });
+
+  a.addEventListener('input',function(){ calc('a'); });
+  b.addEventListener('input',function(){ calc('b'); });
+  document.getElementById('cv-clear').addEventListener('click',function(){
+    a.value=''; b.value=''; a.focus();
+  });
+
+  var want=DEFAULT;
+  try{ want=localStorage.getItem('cvPick')||DEFAULT; }catch(e){}
+  var start=0;
+  for(var k=0;k<CONV.length;k++){ if(CONV[k].a+'|'+CONV[k].b===want){ start=k; break; } }
+  pick(start,false);
+})();
+</script>
+<!-- CALC tab end -->
 <div id="lb" class="lightbox" onclick="this.classList.remove('open')">
   <img id="lb-img" src="">
 </div>
@@ -1969,7 +2139,7 @@ body.two-up #ap-sbk .heli.vfr-wrap{grid-template-columns:repeat(2,1fr);}
 function showAP(id,btn){
   document.querySelectorAll('.airport').forEach(a=>a.classList.remove('show'));
   document.getElementById('ap-'+id).classList.add('show');
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ay','aw','ai','abk','ari','ah','ag','awp','aac','amap','aair'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('ay','aw','ai','abk','ari','ah','ag','awp','aac','amap','aair','acalc'));
   if(id==='yssy') btn.classList.add('ay');
   else if(id==='ysws') btn.classList.add('aw');
   else if(id==='iva') btn.classList.add('ai');
@@ -1981,6 +2151,7 @@ function showAP(id,btn){
   else if(id==='ac') btn.classList.add('aac');
   else if(id==='map') btn.classList.add('amap');
   else if(id==='air') btn.classList.add('aair');
+  else if(id==='calc') btn.classList.add('acalc');
   document.querySelectorAll('.toolbar').forEach(function(tb){ tb.style.display='none'; });
   var atb=document.getElementById('tb-'+id);
   if(atb) atb.style.display='flex';
